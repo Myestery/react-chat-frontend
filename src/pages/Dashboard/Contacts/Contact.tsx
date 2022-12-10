@@ -11,16 +11,21 @@ import { ContactTypes } from "../../../data/contacts";
 //utils
 import { DivideByKeyResultTypes } from "../../../utils";
 import classnames from "classnames";
+import { deleteContact } from "../../../redux/contacts/actions";
+import { useRedux } from "../../../hooks/index";
 
 interface ContactItemProps {
   contact: ContactTypes;
   onSelectChat: (id: string | number, isChannel?: boolean) => void;
 }
+
 const ContactItem = ({ contact, onSelectChat }: ContactItemProps) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-
+  const { dispatch } = useRedux();
   const toggle = () => setDropdownOpen(!dropdownOpen);
-
+  const onDeleteContact = (data: any) => {
+    dispatch(deleteContact(data));
+  };
   const fullName = contact.name;
   const shortName = contact.name;
   const colors = [
@@ -65,16 +70,16 @@ const ContactItem = ({ contact, onSelectChat }: ContactItemProps) => {
         </div>
         <div className="flex-shrink-0">
           <Dropdown isOpen={dropdownOpen} toggle={toggle}>
-           
-              <DropdownToggle tag="a" className="text-mute">
-                <i className="bx bx-dots-vertical-rounded align-middle"></i>
-              </DropdownToggle>
+            <DropdownToggle tag="a" className="text-mute">
+              <i className="bx bx-dots-vertical-rounded align-middle"></i>
+            </DropdownToggle>
             <DropdownMenu className="dropdown-menu-end">
               <DropdownItem
                 className="d-flex align-items-center justify-content-between"
                 href="#"
-                onClick={(e) => { 
-                  
+                onClick={e => {
+                  e.preventDefault();
+                  onDeleteContact(contact._id);
                 }}
               >
                 Remove <i className="bx bx-trash ms-2 text-muted"></i>

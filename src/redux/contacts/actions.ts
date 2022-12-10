@@ -24,6 +24,11 @@ export const inviteContact = (data: any) => ({
   payload: data,
 });
 
+export const deleteContact = (contactId: string) => ({
+  type: ContactsActionTypes.DELETE_CONTACT,
+  payload: contactId,
+});
+
 export const resetContacts = (flag: string, value: any) => ({
   type: ContactsActionTypes.RESET_CONTACTS,
   payload: { flag, value },

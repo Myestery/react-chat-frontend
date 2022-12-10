@@ -11,4 +11,8 @@ const getContacts = (filters?: object) => {
 const inviteContact = (data: object) => {
   return api.create(url.INVITE_CONTACT, data);
 };
-export { getContacts, inviteContact };
+
+const deleteContact = (contactId: string) => {
+  return api.delete(`${url.DELETE_CONTACT}/${contactId}`);
+};
+export { getContacts, inviteContact, deleteContact };

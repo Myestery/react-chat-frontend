@@ -1,7 +1,8 @@
-import { contacts, ContactTypes } from "./contacts";
+import { ContactTypes } from "./contacts";
 import { myData } from "./myProfile";
-import img1 from "../assets/images/small/img-1.jpg";
-import img2 from "../assets/images/small/img-2.jpg";
+
+// import img1 from "../assets/images/small/img-1.jpg";
+// import img2 from "../assets/images/small/img-2.jpg";
 
 export interface AttachmentTypes {
   id: number;

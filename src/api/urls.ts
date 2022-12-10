@@ -17,6 +17,7 @@ export const UPDATE_ETTINGS = "/update-user-settings";
 // contacts
 export const GET_CONTACTS = "/contact";
 export const INVITE_CONTACT = "/contact";
+export const DELETE_CONTACT = "/contact";
 
 // calls
 export const GET_CALLS_LIST = "/calls";

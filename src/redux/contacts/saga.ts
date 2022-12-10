@@ -1,23 +1,22 @@
-import { takeEvery, fork, put, all, call } from "redux-saga/effects";
-
-//  Redux States
-import { ContactsActionTypes } from "./types";
+import { all, call, fork, put, takeEvery } from "redux-saga/effects";
 import {
-  contactsApiResponseSuccess,
   contactsApiResponseError,
+  contactsApiResponseSuccess,
 } from "./actions";
-
 // api
 import {
+  deleteContact as deleteContactApi,
   getContacts as getContactsApi,
   inviteContact as inviteContactApi,
 } from "../../api/index";
-
 // helpers
 import {
-  showSuccessNotification,
   showErrorNotification,
+  showSuccessNotification,
 } from "../../helpers/notifications";
+
+//  Redux States
+import { ContactsActionTypes } from "./types";
 
 function* getContacts({ payload: filters }: any) {
   try {
@@ -38,11 +37,27 @@ function* inviteContact({ payload: newPassword }: any) {
     yield put(
       contactsApiResponseSuccess(ContactsActionTypes.INVITE_CONTACT, response)
     );
-    yield call(showSuccessNotification, "Successfully invited user")
+    yield call(showSuccessNotification, "Successfully invited user");
   } catch (error: any) {
     yield call(showErrorNotification, "User was not found");
     yield put(
       contactsApiResponseError(ContactsActionTypes.INVITE_CONTACT, error)
+    );
+  }
+}
+
+// delete contact
+function* deleteContact({ payload: contactId }: any) {
+  try {
+    const response: Promise<any> = yield call(deleteContactApi, contactId);
+    yield put(
+      contactsApiResponseSuccess(ContactsActionTypes.DELETE_CONTACT, response)
+    );
+    yield call(showSuccessNotification, "Successfully deleted contact");
+  } catch (error: any) {
+    yield call(showErrorNotification, "Error deleting contact");
+    yield put(
+      contactsApiResponseError(ContactsActionTypes.DELETE_CONTACT, error)
     );
   }
 }
@@ -55,8 +70,16 @@ export function* watchInviteContact() {
   yield takeEvery(ContactsActionTypes.INVITE_CONTACT, inviteContact);
 }
 
+export function* watchDeleteContact() {
+  yield takeEvery(ContactsActionTypes.DELETE_CONTACT, deleteContact);
+}
+
 function* contactsSaga() {
-  yield all([fork(watchGetContacts), fork(watchInviteContact)]);
+  yield all([
+    fork(watchGetContacts),
+    fork(watchInviteContact),
+    fork(watchDeleteContact),
+  ]);
 }
 
 export default contactsSaga;
