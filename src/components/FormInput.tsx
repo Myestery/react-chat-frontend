@@ -1,9 +1,8 @@
-// @flow
-import React, { useState, InputHTMLAttributes } from "react";
-import { Input, Label, FormFeedback } from "reactstrap";
-import classNames from "classnames";
+import { FormFeedback, Input, Label } from "reactstrap";
+import React, { InputHTMLAttributes, useState } from "react";
 
 import { FieldErrors } from "react-hook-form";
+import classNames from "classnames";
 
 interface PasswordInputProps {
   name: string;
@@ -164,7 +163,7 @@ const FormInput: React.FunctionComponent<FormInputProps> = ({
                   </div>
                   {errors && errors[name] ? (
                     <FormFeedback type="invalid">
-                      {errors[name]["message"]}
+                      {errors ? errors[name]?.message:''}
                     </FormFeedback>
                   ) : null}
                 </>

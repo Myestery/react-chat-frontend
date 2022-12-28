@@ -1,29 +1,26 @@
+//utils
+import { DivideByKeyResultTypes, divideByKey } from "../../../utils";
 import React, { useEffect, useState } from "react";
-
-// hooks
-import { useRedux } from "../../../hooks/index";
-
-// components
-import Loader from "../../../components/Loader";
-import AppSimpleBar from "../../../components/AppSimpleBar";
-import InviteContactModal from "../../../components/InviteContactModal";
-import EmptyStateResult from "../../../components/EmptyStateResult";
-import ListHeader from "./ListHeader";
-import Contact from "./Contact";
-
 // actions
 import {
+  changeSelectedChat,
+  getChannelDetails,
+  getChatUserConversations,
+  getChatUserDetails,
   getContacts,
   inviteContact,
   resetContacts,
-  getChannelDetails,
-  getChatUserDetails,
-  getChatUserConversations,
-  changeSelectedChat,
 } from "../../../redux/actions";
+// hooks
+import { usePrevious, useRedux } from "../../../hooks/index";
 
-//utils
-import { divideByKey, DivideByKeyResultTypes } from "../../../utils";
+import AppSimpleBar from "../../../components/AppSimpleBar";
+import Contact from "./Contact";
+import EmptyStateResult from "../../../components/EmptyStateResult";
+import InviteContactModal from "../../../components/InviteContactModal";
+import ListHeader from "./ListHeader";
+// components
+import Loader from "../../../components/Loader";
 
 interface IndexProps {}
 
@@ -38,7 +35,7 @@ const Index = (props: IndexProps) => {
       isContactInvited: state.Contacts.isContactInvited,
     })
   );
-
+  const prevContactCount = usePrevious(contactsList.length);
   /*
   get contacts
   */
@@ -49,9 +46,10 @@ const Index = (props: IndexProps) => {
   const [contacts, setContacts] = useState<Array<any>>([]);
   const [contactsData, setContactsData] = useState<Array<any>>([]);
   useEffect(() => {
-    if (contactsList.length > 0) {
+    if (prevContactCount !== contactsList.length) {
       setContacts(contactsList);
     }
+    //  eslint-disable-next-line
   }, [contactsList]);
 
   useEffect(() => {
@@ -77,6 +75,10 @@ const Index = (props: IndexProps) => {
   */
   const onInviteContact = (data: any) => {
     dispatch(inviteContact(data));
+    // get contacts again
+    setTimeout(() => {
+      dispatch(getContacts());
+    }, 1000);
   };
   useEffect(() => {
     if (isContactInvited) {

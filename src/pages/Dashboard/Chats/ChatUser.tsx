@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import classnames from "classnames";
 
+import { Link } from "react-router-dom";
+import { STATUS_TYPES } from "../../../constants";
 // interface
 import { UserTypes } from "../../../data/chat";
-import { STATUS_TYPES } from "../../../constants";
+import classnames from "classnames";
 
 interface ChatUserProps {
   user: UserTypes;
@@ -12,8 +12,10 @@ interface ChatUserProps {
   onSelectChat: (id: number | string) => void;
 }
 const ChatUser = ({ user, selectedChat, onSelectChat }: ChatUserProps) => {
-  const fullName = `${user.firstName} ${user.lastName}`;
-  const shortName = `${user.firstName.charAt(0)}${user.lastName.charAt(0)}`;
+  const fullName = `${user.user.name.firstname} ${user.user.name.lastname}`;
+  const shortName = `${user.user.name.firstname.charAt(
+    0
+  )}${user.user.name.lastname.charAt(0)}`;
 
   const colors = [
     "bg-primary",
@@ -29,9 +31,9 @@ const ChatUser = ({ user, selectedChat, onSelectChat }: ChatUserProps) => {
   const unRead = user.meta && user.meta.unRead;
 
   const isSelectedChat: boolean =
-    selectedChat && selectedChat === user.id ? true : false;
+    selectedChat && selectedChat === user._id ? true : false;
   const onClick = () => {
-    onSelectChat(user.id);
+    onSelectChat(user._id);
   };
   return (
     <li className={classnames({ active: isSelectedChat })} onClick={onClick}>
@@ -46,10 +48,10 @@ const ChatUser = ({ user, selectedChat, onSelectChat }: ChatUserProps) => {
               { online: isOnline }
             )}
           >
-            {user.profileImage ? (
+            {user.image_url ? (
               <>
                 <img
-                  src={user.profileImage}
+                  src={user.image_url}
                   className="rounded-circle avatar-xs"
                   alt=""
                 />

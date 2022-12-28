@@ -5,14 +5,16 @@ import { _APIClient } from "./apiCore";
 const api = _APIClient
 
 const getFavourites = () => {
-  return api.get(url.GET_FAVOURITES);
+  // return api.get(url.GET_FAVOURITES);
+  return []
 };
 
 const getDirectMessages = () => {
   return api.get(url.GET_DIRECT_MESSAGES);
 };
 const getChannels = () => {
-  return api.get(url.GET_CHANNELS);
+  return []
+  // return api.get(url.GET_CHANNELS);
 };
 
 const addContacts = (contacts: Array<string | number>) => {
@@ -24,13 +26,11 @@ const createChannel = (data: object) => {
 };
 
 const getChatUserDetails = (id: string | number) => {
-  return api.get(url.GET_CHAT_USER_DETAILS + "/" + id, { params: { id } });
+  return api.get(url.GET_CHAT_USER_DETAILS + "/" + id);
 };
 
 const getChatUserConversations = (id: string | number) => {
-  return api.get(url.GET_CHAT_USER_CONVERSATIONS + "/" + id, {
-    params: { id },
-  });
+  return api.get(url.GET_CHAT_USER_CONVERSATIONS + "/" + id);
 };
 
 const sendMessage = (data: object) => {
@@ -38,16 +38,16 @@ const sendMessage = (data: object) => {
 };
 
 const receiveMessage = (id: string | number) => {
-  return api.update(url.RECEIVE_MESSAGE + "/" + id, { params: { id } });
+  return api.update(url.RECEIVE_MESSAGE + "/" + id );
 };
 
 const readMessage = (id: string | number) => {
-  return api.update(url.READ_MESSAGE + "/" + id, { params: { id } });
+  return api.update(url.READ_MESSAGE + "/" + id);
 };
 
 const receiveMessageFromUser = (id: string | number) => {
   return api.get(url.RECEIVE_MESSAGE_FROM_USER + "/" + id, {
-    params: { id },
+    // params: { id },
   });
 };
 
@@ -81,7 +81,8 @@ const toggleFavouriteContact = (id: string | number) => {
 archive
 */
 const getArchiveContact = () => {
-  return api.get(url.GET_ARCHIVE_CONTACT);
+  return []
+  // return api.get(url.GET_ARCHIVE_CONTACT);
 };
 
 const toggleArchiveContact = (id: string | number) => {

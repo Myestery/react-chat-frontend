@@ -29,7 +29,7 @@ export const UPDATE_BOOKMARK = "/bookmarks-update";
 
 // chats
 export const GET_FAVOURITES = "/chat/favourites";
-export const GET_DIRECT_MESSAGES = "/chat/direct-messages";
+export const GET_DIRECT_MESSAGES = "/chat/conversations";
 export const GET_CHANNELS = "/chat/channels";
 export const ADD_CONTACTS = "/chat/contact";
 export const CREATE_CHANNEL = "/chat/channel";

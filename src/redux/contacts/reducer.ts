@@ -1,5 +1,7 @@
-// types
 import { ContactsActionTypes, ContactsState } from "./types";
+
+// types
+// import { contacts } from "../../data";
 
 export const INIT_STATE: ContactsState = {
   contacts: [],
@@ -55,6 +57,7 @@ const Contacts = (state = INIT_STATE, action: any) => {
         ...state,
         isContactInvited: false,
       };
+
     case ContactsActionTypes.RESET_CONTACTS:
       const flag = action.payload.flag;
       const value = action.payload.value;
@@ -64,6 +67,13 @@ const Contacts = (state = INIT_STATE, action: any) => {
         ...state,
         ...flags,
       };
+
+    case ContactsActionTypes.DELETE_CONTACT:
+      return {
+        ...state,
+        isContactDeleted: false,
+      };
+
     default:
       return { ...state };
   }

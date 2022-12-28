@@ -1,14 +1,11 @@
-import React from "react";
-import { UncontrolledTooltip } from "reactstrap";
-
 //components
 import AddButton from "../../../components/AddButton";
-
-// interface
-import { UserTypes } from "../../../data/chat";
-
 // component
 import ChatUser from "./ChatUser";
+import React from "react";
+import { UncontrolledTooltip } from "reactstrap";
+// interface
+import { UserTypes } from "../../../data/chat";
 
 interface DirectMessagesProps {
   users: Array<UserTypes>;
@@ -22,6 +19,7 @@ const DirectMessages = ({
   selectedChat,
   onSelectChat,
 }: DirectMessagesProps) => {
+  // console.log("users: ", users);
   /*
     add contacts
     */

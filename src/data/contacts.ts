@@ -23,8 +23,11 @@ export interface ContactTypes {
   id: string | number;
   _id: string | number;
   name: string;
+  user_id: string;
   firstName: string;
   lastName: string;
+  firstname: string;
+  lastname: string;
   profileImage?: any;
   about?: string;
   email: string;

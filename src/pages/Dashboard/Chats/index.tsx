@@ -1,42 +1,38 @@
-import React, { useEffect, useState } from "react";
-
 import { Button, Form, UncontrolledTooltip } from "reactstrap";
+import React, { useEffect, useState } from "react";
+// actions
+import {
+  addContacts,
+  changeSelectedChat,
+  createChannel,
+  getArchiveContact,
+  getChannelDetails,
+  getChannels,
+  getChatUserConversations,
+  getChatUserDetails,
+  getDirectMessages,
+  getFavourites,
+  inviteContact,
+  readConversation,
+  resetContacts,
+} from "../../../redux/actions";
+
+import AddButton from "../../../components/AddButton";
+import AddGroupModal from "../../../components/AddGroupModal";
+// components
+import AppSimpleBar from "../../../components/AppSimpleBar";
+import Archive from "./Archive";
+import { CHATS_TABS } from "../../../constants";
+import Chanels from "./Chanels";
+import ContactModal from "../../../components/ContactModal";
+// interfaces
+import { CreateChannelPostData } from "../../../redux/actions";
+import DirectMessages from "./DirectMessages";
+import Favourites from "./Favourites";
+import InviteContactModal from "../../../components/InviteContactModal";
 import { Link } from "react-router-dom";
 // hooks
 import { useRedux } from "../../../hooks/index";
-
-// actions
-import {
-  inviteContact,
-  resetContacts,
-  getFavourites,
-  getDirectMessages,
-  getChannels,
-  addContacts,
-  createChannel,
-  changeSelectedChat,
-  getChatUserDetails,
-  getChatUserConversations,
-  getChannelDetails,
-  getArchiveContact,
-  readConversation,
-} from "../../../redux/actions";
-
-// interfaces
-import { CreateChannelPostData } from "../../../redux/actions";
-
-// components
-import AppSimpleBar from "../../../components/AppSimpleBar";
-import AddGroupModal from "../../../components/AddGroupModal";
-import InviteContactModal from "../../../components/InviteContactModal";
-import AddButton from "../../../components/AddButton";
-import ContactModal from "../../../components/ContactModal";
-
-import Favourites from "./Favourites";
-import DirectMessages from "./DirectMessages";
-import Chanels from "./Chanels";
-import Archive from "./Archive";
-import { CHATS_TABS } from "../../../constants";
 
 interface IndexProps {}
 const Index = (props: IndexProps) => {
@@ -250,13 +246,13 @@ const Index = (props: IndexProps) => {
               />
 
               {/* channels list */}
-              <Chanels
+              {/* <Chanels
                 channels={channels}
                 openCreateChannel={openCreateChannelModal}
                 selectedChat={selectedChat}
                 onSelectChat={onSelectChat}
-              />
-              <h5 className="text-center mb-2">
+              /> */}
+              {/* <h5 className="text-center mb-2">
                 <Link
                   to="#"
                   className="mb-3 px-4 mt-4 font-size-11 text-primary"
@@ -265,7 +261,7 @@ const Index = (props: IndexProps) => {
                   Archived Contacts{" "}
                   <i className="bx bxs-archive-in align-middle" />
                 </Link>
-              </h5>
+              </h5> */}
             </>
           )}
           {active === CHATS_TABS.ARCHIVE && (

@@ -28,15 +28,15 @@ const ProfileUser = ({
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const toggle = () => setDropdownOpen(!dropdownOpen);
 
-  const profile = chatUserDetails.profileImage
-    ? chatUserDetails.profileImage
+  const profile = chatUserDetails.image_url
+    ? chatUserDetails.image_url
     : imagePlaceholder;
   const fullName =
-    chatUserDetails.name === undefined
-      ? chatUserDetails.firstName
-        ? `${chatUserDetails.firstName} ${chatUserDetails.lastName}`
+    false
+      ? chatUserDetails.firstname
+        ? `${chatUserDetails.firstname} ${chatUserDetails.lastname}`
         : "-"
-      : chatUserDetails.name;
+      : chatUserDetails.firstname
 
   return (
     <div className="p-3 border-bottom">

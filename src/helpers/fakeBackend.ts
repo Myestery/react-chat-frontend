@@ -1,43 +1,31 @@
-import axios from "axios";
-import MockAdapter from "axios-mock-adapter";
 import * as url from "../api/urls";
 
 // dummy data
 import {
-  // profile
-  profileDetails,
-  myData,
-
-  //contacts
-  contacts,
-  onChangeContacts,
-
-  // calls
-  calls,
-
-  // channels
-  userChannels,
-  onChangeUserChannels,
-
-  // bookmarks
-  bookmarks,
-  onChangeBookmark,
-
-  // chats
-  favourites,
-  onChangeFavourite,
-  directMessages,
-  channels,
-  onChangeDirectMessages,
-  onChangeChannels,
-  conversations,
-  onChangeConversations,
-
-  // archive
   archiveChats,
+  bookmarks,
+  calls,
+  channels,
+  contacts,
+  conversations,
+  directMessages,
+  favourites,
+  myData,
   onChangeArchives,
+  onChangeBookmark,
+  onChangeChannels,
+  onChangeContacts,
+  onChangeConversations,
+  onChangeDirectMessages,
+  onChangeFavourite,
+  onChangeUserChannels,
+  profileDetails,
+  userChannels,
 } from "../data/index";
-import { settings, onChangeSettings } from "../data/settings";
+import { onChangeSettings, settings } from "../data/settings";
+
+import MockAdapter from "axios-mock-adapter";
+import axios from "axios";
 
 const accessToken =
   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6ImFkbWluIiwiYWRtaW4iOnRydWUsImp0aSI6ImQ2MTEwYzAxLWMwYjUtNDUzNy1iNDZhLTI0NTk5Mjc2YjY1NiIsImlhdCI6MTU5MjU2MDk2MCwiZXhwIjoxNTkyNTY0NjE5fQ.QgFSQtFaK_Ktauadttq1Is7f9w0SUtKcL8xCmkAvGLw";
@@ -812,15 +800,15 @@ const fakeBackend = () => {
         (c: any) => c.id + "" === data.params.id + ""
       );
       if (contactIdx > -1) {
-        if (contacts[contactIdx].isFavourite) {
-          contacts[contactIdx].isFavourite = false;
-          modifiedF = modifiedF.filter((f: any) => f.id !== data.params.id);
-          message = "User has been removed to your favourite";
-        } else {
-          contacts[contactIdx].isFavourite = true;
-          modifiedF = [...modifiedF, contacts[contactIdx]];
-          modifiedD = modifiedD.filter((c: any) => c.id !== data.params.id);
-        }
+        // if (contacts[contactIdx].isFavourite) {
+        //   contacts[contactIdx].isFavourite = false;
+        //   modifiedF = modifiedF.filter((f: any) => f.id !== data.params.id);
+        //   message = "User has been removed to your favourite";
+        // } else {
+        //   contacts[contactIdx].isFavourite = true;
+        //   modifiedF = [...modifiedF, contacts[contactIdx]];
+        //   modifiedD = modifiedD.filter((c: any) => c.id !== data.params.id);
+        // }
       }
     }
     onChangeContacts(contacts);

@@ -1,9 +1,10 @@
 import { ContactTypes } from "./contacts";
+
 import { myData } from "./myProfile";
 
 // import img1 from "../assets/images/small/img-1.jpg";
 // import img2 from "../assets/images/small/img-2.jpg";
-
+// http://localhost:4500/chat/user-details/63ac77539e10ca7a414e5042?id=63ac77539e10ca7a414e5042
 export interface AttachmentTypes {
   id: number;
   name: string;
@@ -120,11 +121,11 @@ let conversations: ConversationTypes[] = [
   //       image: [
   //         {
   //           id: 1,
-  //           downloadLink: img1,
+  //           downloadLink: "",
   //         },
   //         {
   //           id: 2,
-  //           downloadLink: img2,
+  //           downloadLink: "img2",
   //         },
   //       ],
   //     },

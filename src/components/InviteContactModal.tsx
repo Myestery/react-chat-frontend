@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
 import {
-  Form,
   Button,
+  Form,
+  Input,
+  Label,
   Modal,
-  ModalHeader,
   ModalBody,
   ModalFooter,
-  Label,
-  Input,
+  ModalHeader,
 } from "reactstrap";
+import React, { useEffect, useState } from "react";
 
 interface DataTypes {
   email: string | null;
@@ -56,7 +56,7 @@ const InviteContactModal = ({
   */
   const [valid, setValid] = useState<boolean>(false);
   useEffect(() => {
-    if (data.email !== null && data.message !== null && data.name !== null) {
+    if (data.email !== null  && data.name !== null) {
       setValid(true);
     } else {
       setValid(false);
@@ -99,24 +99,7 @@ const InviteContactModal = ({
               }}
             />
           </div>
-          <div className="mb-3">
-            <Label
-              htmlFor="AddContactModal-invitemessage-input"
-              className="form-label"
-            >
-              Invatation Message
-            </Label>
-            <textarea
-              value={data["message"] || ""}
-              onChange={(e: any) => {
-                onChangeData("message", e.target.value);
-              }}
-              className="form-control"
-              id="AddContactModal-invitemessage-input"
-              rows={3}
-              placeholder="Enter Message"
-            ></textarea>
-          </div>
+          <div className="mb-3"></div>
         </Form>
       </ModalBody>
       <ModalFooter>

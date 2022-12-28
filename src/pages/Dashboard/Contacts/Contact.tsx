@@ -5,13 +5,13 @@ import {
   DropdownToggle,
 } from "reactstrap";
 import React, { useState } from "react";
+import { deleteContact, getContacts, } from "../../../redux/contacts/actions";
 
 // interfaaces
 import { ContactTypes } from "../../../data/contacts";
 //utils
 import { DivideByKeyResultTypes } from "../../../utils";
 import classnames from "classnames";
-import { deleteContact } from "../../../redux/contacts/actions";
 import { useRedux } from "../../../hooks/index";
 
 interface ContactItemProps {
@@ -25,6 +25,10 @@ const ContactItem = ({ contact, onSelectChat }: ContactItemProps) => {
   const toggle = () => setDropdownOpen(!dropdownOpen);
   const onDeleteContact = (data: any) => {
     dispatch(deleteContact(data));
+    
+    setTimeout(() => {
+      dispatch(getContacts());
+    }, 1000);
   };
   const fullName = contact.name;
   const shortName = contact.name;
@@ -40,7 +44,7 @@ const ContactItem = ({ contact, onSelectChat }: ContactItemProps) => {
   const [color] = useState(Math.floor(Math.random() * colors.length));
 
   return (
-    <li onClick={() => onSelectChat(contact.id)}>
+    <li onClick={() => onSelectChat(contact._id)}>
       <div className="d-flex align-items-center">
         <div className="flex-shrink-0 me-2">
           <div className="avatar-xs">
@@ -79,7 +83,7 @@ const ContactItem = ({ contact, onSelectChat }: ContactItemProps) => {
                 href="#"
                 onClick={e => {
                   e.preventDefault();
-                  onDeleteContact(contact._id);
+                  onDeleteContact(contact.user_id);
                 }}
               >
                 Remove <i className="bx bx-trash ms-2 text-muted"></i>

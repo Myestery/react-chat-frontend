@@ -43,15 +43,15 @@ const ProfileImage = ({
   isChannel,
 }: ProfileImageProps) => {
   const fullName = !isChannel
-    ? chatUserDetails.firstName
-      ? `${chatUserDetails.firstName} ${chatUserDetails.lastName}`
+    ? chatUserDetails.firstname
+      ? `${chatUserDetails.firstname} ${chatUserDetails.lastname}`
       : "-"
-    : chatUserDetails.name;
+    : chatUserDetails.firstname;
   const shortName = !isChannel
-    ? chatUserDetails.firstName
-      ? `${chatUserDetails.firstName.charAt(
+    ? chatUserDetails.firstname
+      ? `${chatUserDetails.firstname.charAt(
           0
-        )}${chatUserDetails.lastName.charAt(0)}`
+        )}${chatUserDetails.lastname.charAt(0)}`
       : "-"
     : "#";
 
@@ -93,10 +93,10 @@ const ProfileImage = ({
               { online: isOnline }
             )}
           >
-            {chatUserDetails.profileImage ? (
+            {chatUserDetails.image_url ? (
               <>
                 <img
-                  src={chatUserDetails.profileImage}
+                  src={chatUserDetails.image_url}
                   className="rounded-circle avatar-sm"
                   alt=""
                 />

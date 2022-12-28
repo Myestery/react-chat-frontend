@@ -1,31 +1,26 @@
-import React, { useEffect, useState } from "react";
-import classnames from "classnames";
-
 import {
   Button,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
   Input,
   InputGroup,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
 } from "reactstrap";
-
-// hooks
-import { useRedux } from "../hooks/index";
+//utils
+import { DivideByKeyResultTypes, divideByKey } from "../utils";
+import React, { useEffect, useState } from "react";
 
 // components
 import AppSimpleBar from "./AppSimpleBar";
-import EmptyStateResult from "./EmptyStateResult";
-
-//utils
-import { DivideByKeyResultTypes, divideByKey } from "../utils";
-
 // interfaaces
 import { ContactTypes } from "../data/contacts";
-
+import EmptyStateResult from "./EmptyStateResult";
+import classnames from "classnames";
 // hooks
 import { useContacts } from "../hooks";
+// hooks
+import { useRedux } from "../hooks/index";
 
 interface ContactItemProps {
   contact: ContactTypes;
@@ -37,7 +32,7 @@ const ContactItem = ({
   selected,
   onSelectContact,
 }: ContactItemProps) => {
-  const fullName = `${contact.firstName} ${contact.lastName}`;
+  const fullName = `${contact.name}`;
   const onClick = () => {
     onSelectContact(contact.id, !selected);
   };
@@ -119,9 +114,9 @@ const ContactModal = ({ isOpen, onClose, onAddContact }: ContactModalProps) => {
     setSearch(value);
     let modifiedContacts = [...contactsList];
     let filteredContacts = (modifiedContacts || []).filter((c: any) =>
-      c["firstName"].toLowerCase().includes(value.toLowerCase())
+      c["name"].toLowerCase().includes(value.toLowerCase())
     );
-    const formattedContacts = divideByKey("firstName", filteredContacts);
+    const formattedContacts = divideByKey("name", filteredContacts);
     setContacts(formattedContacts);
   };
 

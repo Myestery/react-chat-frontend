@@ -1,13 +1,14 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
-// hooks
+import { divideByKey } from "../utils";
+import { getLoggedinUser } from "../api/apiCore";
 import { useRedux } from "../hooks/index";
 
+// hooks
+
 // api
-import { getLoggedinUser } from "../api/apiCore";
 
 //utils
-import { divideByKey } from "../utils";
 
 const useProfile = () => {
   // global store
@@ -52,7 +53,7 @@ const useContacts = () => {
 
   useEffect(() => {
     if (contacts.length > 0) {
-      const formattedContacts = divideByKey("firstName", contacts);
+      const formattedContacts = divideByKey("name",contacts);
       setCategorizedContacts(formattedContacts);
     }
   }, [contacts]);
