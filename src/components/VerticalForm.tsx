@@ -1,13 +1,14 @@
+import { Resolver, SubmitHandler, useForm } from "react-hook-form";
+
+import { Form } from "reactstrap";
 // @flow
 import React from "react";
-import { useForm, Resolver, SubmitHandler } from "react-hook-form";
-import { Form } from "reactstrap";
 
 interface VerticalFromProps<TFormValues> {
   defaultValues?: any;
-  resolver?: Resolver<TFormValues>;
+  resolver?: Resolver;
   children?: any;
-  onSubmit: SubmitHandler<TFormValues>;
+  onSubmit: SubmitHandler<any>;
   formClass?: string;
 }
 
@@ -23,7 +24,10 @@ const VerticalForm = <
   /*
    * form methods
    */
-  const methods = useForm<TFormValues>({ defaultValues, resolver });
+  const methods = useForm<TFormValues>({
+    defaultValues,
+    resolver: resolver as Resolver<TFormValues, any>,
+  });
   const {
     handleSubmit,
     register,

@@ -2,18 +2,18 @@ import * as url from "./urls";
 
 import { _APIClient } from "./apiCore";
 
-const api = _APIClient
+const api = _APIClient;
 
 const getFavourites = () => {
   // return api.get(url.GET_FAVOURITES);
-  return []
+  return [];
 };
 
 const getDirectMessages = () => {
   return api.get(url.GET_DIRECT_MESSAGES);
 };
 const getChannels = () => {
-  return []
+  return [];
   // return api.get(url.GET_CHANNELS);
 };
 
@@ -33,12 +33,12 @@ const getChatUserConversations = (id: string | number) => {
   return api.get(url.GET_CHAT_USER_CONVERSATIONS + "/" + id);
 };
 
-const sendMessage = (data: object) => {
-  return api.create(url.SEND_MESSAGE, data);
+const sendMessage = (data: object & { conversation_id: string }) => {
+  return api.create(url.SEND_MESSAGE + "/" + data.conversation_id, data);
 };
 
 const receiveMessage = (id: string | number) => {
-  return api.update(url.RECEIVE_MESSAGE + "/" + id );
+  return api.update(url.RECEIVE_MESSAGE + "/" + id);
 };
 
 const readMessage = (id: string | number) => {
@@ -81,7 +81,7 @@ const toggleFavouriteContact = (id: string | number) => {
 archive
 */
 const getArchiveContact = () => {
-  return []
+  return [];
   // return api.get(url.GET_ARCHIVE_CONTACT);
 };
 

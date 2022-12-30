@@ -1,43 +1,40 @@
-import { takeEvery, fork, put, all, call } from "redux-saga/effects";
+import {
+  addContacts as addContactsApi,
+  createChannel as createChannelApi,
+  deleteImage as deleteImageApi,
+  deleteMessage as deleteMessageApi,
+  deleteUserMessages as deleteUserMessagesApi,
+  forwardMessage as forwardMessageApi,
+  getArchiveContact as getArchiveContactApi,
+  getChannelDetails as getChannelDetailsApi,
+  getChannels as getChannelsApi,
+  getChatUserConversations as getChatUserConversationsApi,
+  getChatUserDetails as getChatUserDetailsApi,
+  getDirectMessages as getDirectMessagesApi,
+  getFavourites as getFavouritesApi,
+  readConversation as readConversationApi,
+  readMessage as readMessageApi,
+  receiveMessage as receiveMessageApi,
+  receiveMessageFromUser as receiveMessageFromUserApi,
+  sendMessage,
+  toggleArchiveContact as toggleArchiveContactApi,
+  toggleFavouriteContact as toggleFavouriteContactApi,
+} from "../../api/index";
+import { all, call, fork, put, takeEvery } from "redux-saga/effects";
+import { chatsApiResponseError, chatsApiResponseSuccess } from "./actions";
+//actions
+import {
+  getChannels as getChannelsAction,
+  getDirectMessages as getDirectMessagesAction,
+  getFavourites as getFavouritesAction,
+} from "./actions";
+import {
+  showErrorNotification,
+  showSuccessNotification,
+} from "../../helpers/notifications";
 
 // Login Redux States
 import { ChatsActionTypes } from "./types";
-import { chatsApiResponseSuccess, chatsApiResponseError } from "./actions";
-
-import {
-  getFavourites as getFavouritesApi,
-  getDirectMessages as getDirectMessagesApi,
-  getChannels as getChannelsApi,
-  addContacts as addContactsApi,
-  createChannel as createChannelApi,
-  getChatUserDetails as getChatUserDetailsApi,
-  getChatUserConversations as getChatUserConversationsApi,
-  sendMessage,
-  receiveMessage as receiveMessageApi,
-  readMessage as readMessageApi,
-  receiveMessageFromUser as receiveMessageFromUserApi,
-  deleteMessage as deleteMessageApi,
-  forwardMessage as forwardMessageApi,
-  deleteUserMessages as deleteUserMessagesApi,
-  getChannelDetails as getChannelDetailsApi,
-  toggleFavouriteContact as toggleFavouriteContactApi,
-  getArchiveContact as getArchiveContactApi,
-  toggleArchiveContact as toggleArchiveContactApi,
-  readConversation as readConversationApi,
-  deleteImage as deleteImageApi,
-} from "../../api/index";
-
-import {
-  showSuccessNotification,
-  showErrorNotification,
-} from "../../helpers/notifications";
-
-//actions
-import {
-  getDirectMessages as getDirectMessagesAction,
-  getFavourites as getFavouritesAction,
-  getChannels as getChannelsAction,
-} from "./actions";
 
 function* getFavourites() {
   try {
@@ -374,6 +371,9 @@ export function* watchReadConversation() {
 export function* watchDeleteImage() {
   yield takeEvery(ChatsActionTypes.DELETE_IMAGE, deleteImage);
 }
+export function* watchWebSocket() {
+  yield takeEvery(ChatsActionTypes.GET_WS_CHAT, () => {});
+}
 
 function* chatsSaga() {
   yield all([
@@ -397,6 +397,7 @@ function* chatsSaga() {
     fork(watchToggleArchiveContact),
     fork(watchReadConversation),
     fork(watchDeleteImage),
+    fork(watchWebSocket)
   ]);
 }
 

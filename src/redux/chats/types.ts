@@ -27,6 +27,7 @@ export enum ChatsActionTypes {
   TOGGLE_ARCHIVE_CONTACT = "@@chats/TOGGLE_ARCHIVE_CONTACT",
   READ_CONVERSATION = "@@chats/READ_CONVERSATION",
   DELETE_IMAGE = "@@chats/DELETE_IMAGE",
+  GET_WS_CHAT = "@@chats/GET_WS_CHAT",
 }
 export interface ChatsState {
   favourites: Array<any>;
@@ -34,7 +35,7 @@ export interface ChatsState {
   channels: Array<any>;
   selectedChat: string | number | null;
   chatUserDetails: object;
-  chatUserConversations: {};
+  chatUserConversations: [];
   isOpenUserDetails: boolean;
   channelDetails: object;
   archiveContacts: Array<any>;

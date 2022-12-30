@@ -1,32 +1,28 @@
-import React, { useState } from "react";
+// interface
 import {
-  DropdownToggle,
-  DropdownMenu,
+  AttachmentTypes,
+  ImageTypes,
+  MessagesTypes,
+} from "../../../data/messages";
+import {
   DropdownItem,
+  DropdownMenu,
+  DropdownToggle,
   UncontrolledDropdown,
 } from "reactstrap";
-import classnames from "classnames";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
 
 // components
 import LightBox from "../../../components/LightBox";
-
-//images
-import imagePlaceholder from "../../../assets/images/users/profile-placeholder.png";
-
-// interface
-import {
-  MessagesTypes,
-  ImageTypes,
-  AttachmentTypes,
-} from "../../../data/messages";
-
-// hooks
-import { useProfile } from "../../../hooks";
-
+import { Link } from "react-router-dom";
+import RepliedMessage from "./RepliedMessage";
+import classnames from "classnames";
 // utils
 import { formateDate } from "../../../utils";
-import RepliedMessage from "./RepliedMessage";
+//images
+import imagePlaceholder from "../../../assets/images/users/profile-placeholder.png";
+// hooks
+import { useProfile } from "../../../hooks";
 
 interface MenuProps {
   onDelete: () => any;
@@ -287,32 +283,27 @@ const Message = ({
   const { userProfile } = useProfile();
   const hasImages = message.image && message.image.length;
   const hasAttachments = message.attachments && message.attachments.length;
-  const hasText = message.text;
+  const hasText = message.message;
   const isTyping = false;
 
-  const chatUserFullName = chatUserDetails.firstName
-    ? `${chatUserDetails.firstName} ${chatUserDetails.lastName}`
+  const chatUserFullName = chatUserDetails.firstname
+    ? `${chatUserDetails.firstname} ${chatUserDetails.lastname}`
     : "-";
 
-  const myProfile = userProfile.profileImage
-    ? userProfile.profileImage
+  const myProfile = userProfile.image_url
+    ? userProfile.image_url
     : imagePlaceholder;
-  const channeluserProfile =
-    message.meta.userData && message.meta.userData.profileImage
-      ? message.meta.userData.profileImage
-      : imagePlaceholder;
-  const chatUserprofile = chatUserDetails.profileImage
-    ? chatUserDetails.profileImage
+  const channeluserProfile = imagePlaceholder;
+  const chatUserprofile = chatUserDetails.image_url
+    ? chatUserDetails.image_url
     : imagePlaceholder;
   const profile = isChannel ? channeluserProfile : chatUserprofile;
-  const date = formateDate(message.time, "hh:mmaaa");
-  const isSent = message.meta.sent;
-  const isReceived = message.meta.received;
-  const isRead = message.meta.read;
-  const isForwarded = message.meta.isForwarded;
-  const channdelSenderFullname = message.meta.userData
-    ? `${message.meta.userData.firstName} ${message.meta.userData.lastName}`
-    : "-";
+  const date = formateDate(message.created_at, "hh:mmaaa");
+  const isSent = true;
+  const isReceived = message.read_by.length > 1;
+  const isRead = message.read_by.length > 1;
+  const isForwarded = false;
+  const channdelSenderFullname = null;
   const fullName = isChannel ? channdelSenderFullname : chatUserFullName;
   const onDeleteMessage = () => {
     onDelete(message.mId);
@@ -344,10 +335,10 @@ const Message = ({
         </div>
 
         <div className="user-chat-content">
-          {hasImages && message.text && (
+          {hasImages && message.message && (
             <div className="ctext-wrap">
               <div className="ctext-wrap-content">
-                <p className="mb-0 ctext-content">{message.text}</p>
+                <p className="mb-0 ctext-content">{message.message}</p>
               </div>
             </div>
           )}
@@ -386,14 +377,14 @@ const Message = ({
                 <div className="ctext-wrap-content">
                   {isRepliedMessage && (
                     <RepliedMessage
-                      fullName={fullName}
+                      fullName={fullName as string}
                       message={message}
                       isFromMe={isFromMe}
                     />
                   )}
 
                   {hasText && (
-                    <p className="mb-0 ctext-content">{message.text}</p>
+                    <p className="mb-0 ctext-content">{message.message}</p>
                   )}
 
                   {/* typing start */}
@@ -406,11 +397,11 @@ const Message = ({
                   )}
                   {/* files message end */}
                 </div>
-                <Menu
+                {/* <Menu
                   onForward={onForwardMessage}
                   onDelete={onDeleteMessage}
                   onReply={onClickReply}
-                />
+                /> */}
               </>
             )}
 

@@ -45,8 +45,8 @@ const Conversation = ({
   );
 
   const messages =
-    chatUserConversations.messages && chatUserConversations.messages.length
-      ? chatUserConversations.messages
+    chatUserConversations && chatUserConversations.length
+      ? chatUserConversations
       : [];
 
   const ref = useRef<any>();
@@ -114,6 +114,7 @@ const Conversation = ({
   ) => {
     dispatch(deleteImage(chatUserDetails.id, messageId, imageId));
   };
+  // console.log(userProfile)
   return (
     <AppSimpleBar
       scrollRef={ref}
@@ -125,7 +126,7 @@ const Conversation = ({
         id="chat-conversation-list"
       >
         {(messages || []).map((message: MessagesTypes, key: number) => {
-          const isFromMe = message.meta.sender + "" === userProfile.uid + "";
+          const isFromMe = message.sender + "" === userProfile.data.user.id;
           return (
             <Message
               message={message}

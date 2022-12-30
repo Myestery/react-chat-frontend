@@ -32,6 +32,10 @@ export interface MessagesTypes {
   attachments?: AttachmentTypes[];
   image?: ImageTypes[];
   replyOf?: MessagesTypes;
+  sender?: string
+  message?: string
+  created_at?: string
+  read_by: string[]
 }
 export interface ConversationTypes {
   conversationId: string | number;

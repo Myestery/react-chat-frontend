@@ -7,7 +7,7 @@ export const INIT_STATE: ChatsState = {
   channels: [],
   selectedChat: null,
   chatUserDetails: {},
-  chatUserConversations: {},
+  chatUserConversations: [],
   isOpenUserDetails: false,
   channelDetails: {},
   archiveContacts: [],
@@ -334,6 +334,16 @@ const Chats = (state = INIT_STATE, action: any) => {
       return {
         ...state,
         isImageDeleted: false,
+      };
+    case ChatsActionTypes.GET_WS_CHAT:
+      return {
+        ...state,
+        chatUserConversations: [
+          ...state.chatUserConversations.filter(
+            (x: any) => x._id != action.payload._id
+          ),
+          action.payload,
+        ],
       };
     default:
       return { ...state };

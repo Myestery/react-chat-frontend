@@ -122,6 +122,11 @@ export const readConversation = (id: number | string) => ({
   payload: id,
 });
 
+export const getWebSocketChat = (data: any) => ({
+  type: ChatsActionTypes.GET_WS_CHAT,
+  payload: data,
+});
+
 export const deleteImage = (
   userId: number | string,
   messageId: number | string,

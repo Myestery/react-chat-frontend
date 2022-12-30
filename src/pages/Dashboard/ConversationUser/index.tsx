@@ -1,35 +1,39 @@
-import React, { useEffect, useState } from "react";
+import {} from "../../../redux/chats/actions";
 
+import React, { useEffect, useState } from "react";
+import {
+  deleteMessage,
+  deleteUserMessages,
+  getChatUserConversations,
+  getWebSocketChat,
+  onSendMessage,
+  readMessage,
+  receiveMessage,
+  receiveMessageFromUser,
+  toggleArchiveContact,
+  toggleUserDetailsTab,
+} from "../../../redux/actions";
+
+import ChatInputSection from "./ChatInputSection/index";
+import Conversation from "./Conversation";
+// interface
+import { MessagesTypes } from "../../../data/messages";
+// components
+import UserHead from "./UserHead";
+// dummy data
+import { pinnedTabs } from "../../../data/index";
+// hooks
+import { useProfile } from "../../../hooks";
 // hooks
 import { useRedux } from "../../../hooks/index";
 
-// actions
-import {
-  toggleUserDetailsTab,
-  getChatUserConversations,
-  onSendMessage,
-  receiveMessage,
-  readMessage,
-  receiveMessageFromUser,
-  deleteMessage,
-  deleteUserMessages,
-  toggleArchiveContact,
-} from "../../../redux/actions";
-
-// hooks
-import { useProfile } from "../../../hooks";
-
-// components
-import UserHead from "./UserHead";
-import Conversation from "./Conversation";
-import ChatInputSection from "./ChatInputSection/index";
-
-// interface
-import { MessagesTypes } from "../../../data/messages";
-
-// dummy data
-import { pinnedTabs } from "../../../data/index";
-
+const { io } = require("socket.io-client"); // actions
+const socket = io("http://localhost:4000/chat");
+window.scrollTo({
+  left: 0,
+  top: document.body.scrollHeight,
+  behavior: "smooth",
+});
 interface IndexProps {
   isChannel: boolean;
 }
@@ -83,30 +87,21 @@ const Index = ({ isChannel }: IndexProps) => {
       time: new Date().toISOString(),
       image: data.image && data.image,
       attachments: data.attachments && data.attachments,
-      meta: {
-        receiver: chatUserDetails.id,
-        sender: userProfile.uid,
-      },
+      conversation_id: chatUserDetails.conversation_id,
     };
     if (replyData && replyData !== null) {
       params["replyOf"] = replyData;
     }
 
     dispatch(onSendMessage(params));
-    if (!isChannel) {
-      setTimeout(() => {
-        dispatch(receiveMessage(chatUserDetails.id));
-      }, 1000);
-      setTimeout(() => {
-        dispatch(readMessage(chatUserDetails.id));
-      }, 1500);
-      setTimeout(() => {
-        dispatch(receiveMessageFromUser(chatUserDetails.id));
-      }, 2000);
-    }
     setReplyData(null);
   };
 
+  // useEffect(() => {
+  //   // join room
+
+  // }, []);
+  // console.log(userProfile);
   useEffect(() => {
     if (
       isUserMessageSent ||
@@ -115,8 +110,25 @@ const Index = ({ isChannel }: IndexProps) => {
       isUserMessagesDeleted ||
       isImageDeleted
     ) {
-      dispatch(getChatUserConversations(chatUserDetails.id));
+      dispatch(getChatUserConversations(chatUserDetails.conversation_id));
     }
+    socket.emit("createRoom", chatUserDetails.conversation_id);
+    window.scrollTo({
+      left: 0,
+      top: document.body.scrollHeight,
+      behavior: "smooth",
+    });
+    socket.on("new_chat", (data: any) => {
+      if (data.sender != userProfile.data.user.id) {
+        dispatch(getWebSocketChat(data));
+        // scroll to bottom of page
+        window.scrollTo({
+          left: 0,
+          top: document.body.scrollHeight,
+          behavior: "smooth",
+        });
+      }
+    });
   }, [
     dispatch,
     isUserMessageSent,
