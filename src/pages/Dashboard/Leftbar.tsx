@@ -1,19 +1,17 @@
-import React from "react";
 import { TabContent, TabPane } from "reactstrap";
 
-// hooks
-import { useRedux } from "../../hooks/index";
-
-// constants
-import { TABS } from "../../constants/index";
-
-// component
-import Profile from "./Profile/index";
+import Calls from "./Calls/index";
 import Chats from "./Chats/index";
 import Contacts from "./Contacts/index";
-import Calls from "./Calls/index";
+// component
+import Profile from "./Profile/index";
+import React from "react";
 // import Bookmark from "./Bookmark/index";
 import Settings from "./Settings/index";
+// constants
+import { TABS } from "../../constants/index";
+// hooks
+import { useRedux } from "../../hooks/index";
 
 interface LeftbarProps {}
 const Leftbar = (props: LeftbarProps) => {
@@ -54,13 +52,13 @@ const Leftbar = (props: LeftbarProps) => {
             <Contacts />
           </TabPane>
 
-          <TabPane
+          {/* <TabPane
             tabId={TABS.CALLS}
             role="tabpanel"
             aria-labelledby="pills-calls-tab"
           >
             <Calls />
-          </TabPane>
+          </TabPane> */}
 
           {/* <TabPane
             tabId={TABS.BOOKMARK}

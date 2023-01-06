@@ -1,9 +1,8 @@
-import React from "react";
 import { Button, Modal, ModalBody } from "reactstrap";
 
 // interface
 import { CallItem } from "../data/calls";
-
+import React from "react";
 //images
 import imagePlaceholder from "../assets/images/users/profile-placeholder.png";
 
@@ -25,7 +24,7 @@ const VideoCallModal = ({ isOpen, onClose, user }: VideoCallModalProps) => {
     >
       <ModalBody className="p-0">
         <img
-          src={user && user.profileImage ? user.profileImage : imagePlaceholder}
+          src={user && user.image_url ? user.image_url : imagePlaceholder}
           alt=""
           className="videocallModal-bg"
         />
@@ -43,17 +42,7 @@ const VideoCallModal = ({ isOpen, onClose, user }: VideoCallModalProps) => {
                   </span>
                 </Button>
               </div>
-              <div className="avatar-md h-auto">
-                <Button
-                  color="light"
-                  type="button"
-                  className="avatar-sm rounded-circle"
-                >
-                  <span className="avatar-title bg-transparent text-muted font-size-20">
-                    <i className="bx bx-volume-full"></i>
-                  </span>
-                </Button>
-              </div>
+              
               <div className="avatar-md h-auto">
                 <Button
                   color="light"
@@ -65,17 +54,7 @@ const VideoCallModal = ({ isOpen, onClose, user }: VideoCallModalProps) => {
                   </span>
                 </Button>
               </div>
-              <div className="avatar-md h-auto">
-                <Button
-                  color="light"
-                  type="button"
-                  className="avatar-sm rounded-circle"
-                >
-                  <span className="avatar-title bg-transparent text-muted font-size-20">
-                    <i className="bx bx-refresh"></i>
-                  </span>
-                </Button>
-              </div>
+              
             </div>
 
             <div className="mt-4">
@@ -95,7 +74,7 @@ const VideoCallModal = ({ isOpen, onClose, user }: VideoCallModalProps) => {
           <div className="p-4 bg-primary mt-n4">
             <div className="text-white mt-4 text-center">
               <h5 className="font-size-18 text-truncate mb-0 text-white">
-                {user ? `${user.firstName} ${user.lastName}` : ""}
+                {user ? `${user.name?.firstname} ${user.name?.lastname}` : ""}
               </h5>
             </div>
           </div>

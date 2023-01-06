@@ -9,7 +9,7 @@ export interface MenuItemType {
   className?: string;
   tabId:
     | TABS.BOOKMARK
-    | TABS.CALLS
+    // | TABS.CALLS
     | TABS.CHAT
     | TABS.CONTACTS
     | TABS.SETTINGS
@@ -38,13 +38,13 @@ const MENU_ITEMS: MenuItemType[] = [
     tooltipTitle: "Contacts",
     tabId: TABS.CONTACTS,
   },
-  {
-    id: 4,
-    key: "pills-calls-tab",
-    icon: "bx bx-phone-call",
-    tooltipTitle: "Calls",
-    tabId: TABS.CALLS,
-  },
+  // {
+  //   id: 4,
+  //   key: "pills-calls-tab",
+  //   icon: "bx bx-phone-call",
+  //   tooltipTitle: "Calls",
+  //   tabId: TABS.CALLS,
+  // },
   // {
   //   id: 5,
   //   key: "pills-bookmark-tab",

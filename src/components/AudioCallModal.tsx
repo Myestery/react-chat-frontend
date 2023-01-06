@@ -1,11 +1,11 @@
-import React from "react";
 import { Button, Modal, ModalBody } from "reactstrap";
 
 // interface
 import { CallItem } from "../data/calls";
-
+import React from "react";
 //images
 import imagePlaceholder from "../assets/images/users/profile-placeholder.png";
+
 interface AudioCallModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -27,7 +27,7 @@ const AudioCallModal = ({ isOpen, onClose, user }: AudioCallModalProps) => {
           <div className="avatar-xl mx-auto mb-4">
             <img
               src={
-                user && user.profileImage ? user.profileImage : imagePlaceholder
+                user && user.image_url ? user.image_url : imagePlaceholder
               }
               alt=""
               className="img-thumbnail rounded-circle"
@@ -49,34 +49,6 @@ const AudioCallModal = ({ isOpen, onClose, user }: AudioCallModalProps) => {
                 Mute
               </h5>
             </div>
-            <div className="avatar-md h-auto">
-              <Button
-                type="button"
-                color="light"
-                className=" avatar-sm rounded-circle"
-              >
-                <span className="avatar-title bg-transparent text-muted font-size-20">
-                  <i className="bx bx-volume-full"></i>
-                </span>
-              </Button>
-              <h5 className="font-size-11 text-uppercase text-muted mt-2">
-                Speaker
-              </h5>
-            </div>
-            <div className="avatar-md h-auto">
-              <Button
-                color="light"
-                type="button"
-                className="avatar-sm rounded-circle"
-              >
-                <span className="avatar-title bg-transparent text-muted font-size-20">
-                  <i className="bx bx-user-plus"></i>
-                </span>
-              </Button>
-              <h5 className="font-size-11 text-uppercase text-muted mt-2">
-                Add New
-              </h5>
-            </div>
           </div>
 
           <div className="mt-4">
@@ -96,7 +68,7 @@ const AudioCallModal = ({ isOpen, onClose, user }: AudioCallModalProps) => {
         <div className="p-4 bg-soft-primary mt-n4">
           <div className="mt-4 text-center">
             <h5 className="font-size-18 mb-0 text-truncate">
-              {user ? `${user.firstName} ${user.lastName}` : ""}
+              {user ? `${user.name?.firstname} ${user.name?.lastname}` : ""}
             </h5>
           </div>
         </div>

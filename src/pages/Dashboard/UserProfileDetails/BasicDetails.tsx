@@ -4,8 +4,8 @@ interface BasicDetailsProps {
   chatUserDetails: any;
 }
 const BasicDetails = ({ chatUserDetails }: BasicDetailsProps) => {
-  const fullName = chatUserDetails.firstName
-    ? `${chatUserDetails.firstName} ${chatUserDetails.lastName}`
+  const fullName = chatUserDetails.name
+    ? `${chatUserDetails.name?.firstname} ${chatUserDetails.name?.lastname}`
     : "-";
 
   return (
@@ -15,11 +15,6 @@ const BasicDetails = ({ chatUserDetails }: BasicDetailsProps) => {
         <div className="d-flex align-items-end">
           <div className="flex-grow-1">
             <p className="text-muted font-size-14 mb-1">Name</p>
-          </div>
-          <div className="flex-shrink-0">
-            <button type="button" className="btn btn-sm btn-soft-primary">
-              Edit
-            </button>
           </div>
         </div>
         <h5 className="font-size-14">{fullName}</h5>
@@ -32,12 +27,7 @@ const BasicDetails = ({ chatUserDetails }: BasicDetailsProps) => {
         </h5>
       </div>
 
-      <div className="mt-4">
-        <p className="text-muted font-size-14 mb-1">Location</p>
-        <h5 className="font-size-14 mb-0">
-          {chatUserDetails.location ? chatUserDetails.location : "-"}
-        </h5>
-      </div>
+      
     </div>
   );
 };

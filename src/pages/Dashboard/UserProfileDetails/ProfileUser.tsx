@@ -1,18 +1,18 @@
-import React, { useState } from "react";
 import {
   Button,
   Dropdown,
+  DropdownItem,
   DropdownMenu,
   DropdownToggle,
-  DropdownItem,
 } from "reactstrap";
-import classnames from "classnames";
-
-//images
-import imagePlaceholder from "../../../assets/images/users/profile-placeholder.png";
+import React, { useState } from "react";
 
 // constants
 import { STATUS_TYPES } from "../../../constants";
+import classnames from "classnames";
+//images
+import imagePlaceholder from "../../../assets/images/users/profile-placeholder.png";
+
 interface ProfileUserProps {
   onCloseUserDetails: () => any;
   chatUserDetails: any;
@@ -65,13 +65,13 @@ const ProfileUser = ({
               </div>
               <div className="flex-shrink-0">
                 <Dropdown isOpen={dropdownOpen} toggle={toggle}>
-                  <DropdownToggle
+                  {/* <DropdownToggle
                     color="none"
                     className="btn nav-btn text-white"
                     type="button"
                   >
                     <i className="bx bx-dots-vertical-rounded"></i>
-                  </DropdownToggle>
+                  </DropdownToggle> */}
                   <DropdownMenu className="dropdown-menu-end">
                     <DropdownItem
                       className="d-flex justify-content-between align-items-center d-lg-none user-profile-show"

@@ -1,15 +1,14 @@
-import React, { useEffect, useState } from "react";
 import { Alert, Form } from "reactstrap";
+import React, { useEffect, useState } from "react";
 
-// components
-import StartButtons from "./StartButtons";
-import InputSection from "./InputSection";
 import EndButtons from "./EndButtons";
-import MoreMenu from "./MoreMenu";
-import Reply from "./Reply";
-
+import InputSection from "./InputSection";
 // interface
 import { MessagesTypes } from "../../../../data/messages";
+import MoreMenu from "./MoreMenu";
+import Reply from "./Reply";
+// components
+import StartButtons from "./StartButtons";
 
 interface IndexProps {
   onSend: (data: any) => void;

@@ -1,30 +1,28 @@
-import React, { useState, useEffect } from "react";
-import classnames from "classnames";
-
-// hooks
-import { useRedux } from "../../../hooks/index";
-
+import React, { useEffect, useState } from "react";
 // actions
 import {
-  toggleUserDetailsTab,
-  toggleFavouriteContact,
   getChatUserDetails,
   toggleArchiveContact,
+  toggleFavouriteContact,
+  toggleUserDetailsTab,
 } from "../../../redux/actions";
 
+import Actions from "./Actions";
+import AppSimpleBar from "../../../components/AppSimpleBar";
+import AttachedFiles from "../../../components/AttachedFiles";
 // components
 import AudioCallModal from "../../../components/AudioCallModal";
-import VideoCallModal from "../../../components/VideoCallModal";
-import AppSimpleBar from "../../../components/AppSimpleBar";
-import Loader from "../../../components/Loader";
-import ProfileUser from "./ProfileUser";
-import Actions from "./Actions";
 import BasicDetails from "./BasicDetails";
 import Groups from "./Groups";
+import Loader from "../../../components/Loader";
 import Media from "../../../components/Media";
-import AttachedFiles from "../../../components/AttachedFiles";
-import Status from "./Status";
 import Members from "./Members";
+import ProfileUser from "./ProfileUser";
+import Status from "./Status";
+import VideoCallModal from "../../../components/VideoCallModal";
+import classnames from "classnames";
+// hooks
+import { useRedux } from "../../../hooks/index";
 
 interface IndexProps {
   isChannel: boolean;
@@ -128,18 +126,18 @@ const Index = ({ isChannel }: IndexProps) => {
               <>
                 <BasicDetails chatUserDetails={chatUserDetails} />
                 <hr className="my-4" />
-                <Groups chatUserDetails={chatUserDetails} />
+                {/* <Groups chatUserDetails={chatUserDetails} /> */}
                 <hr className="my-4" />
               </>
             ) : (
               <>
-                <Members chatUserDetails={chatUserDetails} />
+                {/* <Members chatUserDetails={chatUserDetails} /> */}
                 <hr className="my-4" />
               </>
             )}
-            <Media media={chatUserDetails.media} limit={3} />
-            <hr className="my-4" />
-            <AttachedFiles attachedFiles={chatUserDetails.attachedFiles} />
+            {/* <Media media={chatUserDetails.media} limit={3} /> */}
+            {/* <hr className="my-4" /> */}
+            {/* <AttachedFiles attachedFiles={chatUserDetails.attachedFiles} /> */}
           </AppSimpleBar>
           {/* <!-- end user-profile-desc --> */}
           {isOpenAudioModal && (

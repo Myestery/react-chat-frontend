@@ -1,12 +1,14 @@
-import React, { useState } from "react";
 import {
   Button,
   Dropdown,
+  DropdownItem,
   DropdownMenu,
   DropdownToggle,
-  DropdownItem,
 } from "reactstrap";
+import React, { useState } from "react";
+
 import classnames from "classnames";
+
 interface AttachedFilesProps {
   chatUserDetails: any;
   onOpenVideo: () => void;
@@ -38,7 +40,7 @@ const AttachedFiles = ({
             </h5>
           </div>
         </div>
-        <div className="col-sm col-4">
+        {/* <div className="col-sm col-4">
           <div className="mb-4">
             <Button
               color="none"
@@ -59,7 +61,7 @@ const AttachedFiles = ({
               Favourite
             </h5>
           </div>
-        </div>
+        </div> */}
         <div className="col-sm col-4">
           <div className="mb-4">
             <Button
@@ -93,7 +95,7 @@ const AttachedFiles = ({
             </h5>
           </div>
         </div>
-        <div className="col-sm col-4">
+        {/* <div className="col-sm col-4">
           <div className="mb-4">
             <Dropdown isOpen={dropdownOpen} toggle={toggle}>
               <DropdownToggle
@@ -141,7 +143,7 @@ const AttachedFiles = ({
               More
             </h5>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

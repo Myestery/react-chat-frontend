@@ -1,35 +1,32 @@
-import React, { useState } from "react";
 import {
-  Row,
+  Alert,
+  Button,
   Col,
   Dropdown,
-  DropdownToggle,
-  DropdownMenu,
   DropdownItem,
+  DropdownMenu,
+  DropdownToggle,
   Input,
-  Button,
-  Alert,
+  Row,
   UncontrolledTooltip,
 } from "reactstrap";
-import { Link } from "react-router-dom";
-import classnames from "classnames";
+import React, { useState } from "react";
 
+import AddPinnedTabModal from "../../../components/AddPinnedTabModal";
+// components
+import AudioCallModal from "../../../components/AudioCallModal";
+import { Link } from "react-router-dom";
+// interface
+import { PinTypes } from "../../../data/chat";
+// constants
+import { STATUS_TYPES } from "../../../constants";
+import VideoCallModal from "../../../components/VideoCallModal";
+// actions
+import { changeSelectedChat } from "../../../redux/actions";
+import classnames from "classnames";
 // hooks
 import { useRedux } from "../../../hooks/index";
 
-// components
-import AudioCallModal from "../../../components/AudioCallModal";
-import VideoCallModal from "../../../components/VideoCallModal";
-import AddPinnedTabModal from "../../../components/AddPinnedTabModal";
-
-// interface
-import { PinTypes } from "../../../data/chat";
-
-// actions
-import { changeSelectedChat } from "../../../redux/actions";
-
-// constants
-import { STATUS_TYPES } from "../../../constants";
 interface ProfileImageProps {
   chatUserDetails: any;
   onCloseConversation: () => any;
@@ -199,9 +196,9 @@ const More = ({
 
   return (
     <Dropdown isOpen={dropdownOpen} toggle={toggle}>
-      <DropdownToggle color="none" className="btn nav-btn" type="button">
+      {/* <DropdownToggle color="none" className="btn nav-btn" type="button">
         <i className="bx bx-dots-vertical-rounded"></i>
-      </DropdownToggle>
+      </DropdownToggle> */}
       <DropdownMenu className="dropdown-menu-end">
         <DropdownItem
           className="d-flex justify-content-between align-items-center d-lg-none user-profile-show"
@@ -362,9 +359,9 @@ const UserHead = ({
         </Col>
         <Col sm={8} className="col-4">
           <ul className="list-inline user-chat-nav text-end mb-0">
-            <li className="list-inline-item">
+            {/* <li className="list-inline-item">
               <Search />
-            </li>
+            </li> */}
 
             {!isChannel && (
               <>

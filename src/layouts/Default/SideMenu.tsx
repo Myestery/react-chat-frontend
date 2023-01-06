@@ -1,32 +1,27 @@
-import React, { useEffect, useState } from "react";
-
-import { Link } from "react-router-dom";
 import {
-  Nav,
-  NavItem,
   Dropdown,
   DropdownItem,
-  DropdownToggle,
   DropdownMenu,
+  DropdownToggle,
+  Nav,
+  NavItem,
   NavLink,
   UncontrolledTooltip,
 } from "reactstrap";
-
-// hooks
-import { useRedux } from "../../hooks/index";
-
-// actions
-import { changeTab } from "../../redux/actions";
-
-// costants
-import { TABS } from "../../constants/index";
-import LightDarkMode from "../../components/LightDarkMode";
-
-//images
-import avatar1 from "../../assets/images/users/avatar-1.jpg";
-
 // menu
 import { MENU_ITEMS, MenuItemType } from "./menu";
+import React, { useEffect, useState } from "react";
+
+import LightDarkMode from "../../components/LightDarkMode";
+import { Link } from "react-router-dom";
+// costants
+import { TABS } from "../../constants/index";
+//images
+import avatar1 from "../../assets/images/users/avatar-1.jpg";
+// actions
+import { changeTab } from "../../redux/actions";
+// hooks
+import { useRedux } from "../../hooks/index";
 
 const LogoLightSVG = () => {
   return (
@@ -76,7 +71,7 @@ interface MenuNavItemProps {
   item: MenuItemType;
   selectedTab:
     | TABS.BOOKMARK
-    | TABS.CALLS
+    // | TABS.CALLS
     | TABS.CHAT
     | TABS.CONTACTS
     | TABS.SETTINGS
@@ -84,7 +79,7 @@ interface MenuNavItemProps {
   onChangeTab: (
     id:
       | TABS.BOOKMARK
-      | TABS.CALLS
+      // | TABS.CALLS
       | TABS.CHAT
       | TABS.CONTACTS
       | TABS.SETTINGS
@@ -119,7 +114,7 @@ interface ProfileDropdownMenuProps {
   onChangeTab: (
     id:
       | TABS.BOOKMARK
-      | TABS.CALLS
+      // | TABS.CALLS
       | TABS.CHAT
       | TABS.CONTACTS
       | TABS.SETTINGS
@@ -188,7 +183,7 @@ const SideMenu = ({ onChangeLayoutMode }: any) => {
     */
   const [selectedTab, setSelectedTab] = useState<
     | TABS.BOOKMARK
-    | TABS.CALLS
+    // | TABS.CALLS
     | TABS.CHAT
     | TABS.CONTACTS
     | TABS.SETTINGS
@@ -197,7 +192,7 @@ const SideMenu = ({ onChangeLayoutMode }: any) => {
   const onChangeTab = (
     id:
       | TABS.BOOKMARK
-      | TABS.CALLS
+      // | TABS.CALLS
       | TABS.CHAT
       | TABS.CONTACTS
       | TABS.SETTINGS
@@ -230,10 +225,10 @@ const SideMenu = ({ onChangeLayoutMode }: any) => {
           ))}
 
           {/* change mode */}
-          <LightDarkMode
+          {/* <LightDarkMode
             layoutMode={layoutMode}
             onChangeLayoutMode={onChangeLayoutMode}
-          />
+          /> */}
 
           {/* profile menu dropdown */}
           <ProfileDropdownMenu onChangeTab={onChangeTab} />

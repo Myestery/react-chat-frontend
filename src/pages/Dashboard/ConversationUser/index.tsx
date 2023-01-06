@@ -29,11 +29,7 @@ import { useRedux } from "../../../hooks/index";
 
 const { io } = require("socket.io-client"); // actions
 const socket = io("http://localhost:4000/chat");
-window.scrollTo({
-  left: 0,
-  top: document.body.scrollHeight,
-  behavior: "smooth",
-});
+
 interface IndexProps {
   isChannel: boolean;
 }
@@ -112,21 +108,21 @@ const Index = ({ isChannel }: IndexProps) => {
     ) {
       dispatch(getChatUserConversations(chatUserDetails.conversation_id));
     }
+    setTimeout(() => {
+      let lastChild = document.querySelector("#chat-conversation-list")
+        ?.lastChild as HTMLElement;
+      lastChild &&
+        lastChild.scrollIntoView({ behavior: "smooth", block: "end" });
+    }, 1000);
     socket.emit("createRoom", chatUserDetails.conversation_id);
-    window.scrollTo({
-      left: 0,
-      top: document.body.scrollHeight,
-      behavior: "smooth",
-    });
     socket.on("new_chat", (data: any) => {
       if (data.sender != userProfile.data.user.id) {
         dispatch(getWebSocketChat(data));
         // scroll to bottom of page
-        window.scrollTo({
-          left: 0,
-          top: document.body.scrollHeight,
-          behavior: "smooth",
-        });
+        let lastChild = document.querySelector("#chat-conversation-list")
+          ?.lastChild as HTMLElement;
+        lastChild &&
+          lastChild.scrollIntoView({ behavior: "smooth", block: "end" });
       }
     });
   }, [
