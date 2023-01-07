@@ -1,23 +1,22 @@
-import React, { useEffect, useRef, useCallback, useState } from "react";
-
-// hooks
-import { useRedux } from "../../../hooks/index";
-
-// hooks
-import { useProfile } from "../../../hooks";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+// actions
+import { deleteImage, forwardMessage } from "../../../redux/actions";
 
 // components
 import AppSimpleBar from "../../../components/AppSimpleBar";
+import ForwardModal from "../../../components/ForwardModal";
 import Loader from "../../../components/Loader";
 import Message from "./Message";
-// import Day from "./Day";
-
 // interface
 import { MessagesTypes } from "../../../data/messages";
-import ForwardModal from "../../../components/ForwardModal";
+// hooks
+import { useProfile } from "../../../hooks";
+// hooks
+import { useRedux } from "../../../hooks/index";
 
-// actions
-import { forwardMessage, deleteImage } from "../../../redux/actions";
+// import Day from "./Day";
+
+
 interface ConversationProps {
   chatUserConversations: any;
   chatUserDetails: any;

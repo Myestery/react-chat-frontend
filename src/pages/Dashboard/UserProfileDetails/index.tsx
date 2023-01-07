@@ -72,6 +72,7 @@ const Index = ({ isChannel }: IndexProps) => {
     */
   const [isOpenAudioModal, setIsOpenAudioModal] = useState<boolean>(false);
   const onOpenAudio = () => {
+    console.log(chatUserDetails);
     setIsOpenAudioModal(true);
   };
   const onCloseAudio = () => {
@@ -145,6 +146,9 @@ const Index = ({ isChannel }: IndexProps) => {
               isOpen={isOpenAudioModal}
               onClose={onCloseAudio}
               user={chatUserDetails}
+              isActive={true}
+              onAnswer={onCloseAudio}
+              isAnswered={true}
             />
           )}
           {isOpenVideoModal && (

@@ -6,10 +6,12 @@ import {
   deleteUserMessages,
   getChatUserConversations,
   getWebSocketChat,
+  hangup,
   onSendMessage,
   readMessage,
   receiveMessage,
   receiveMessageFromUser,
+  ringing,
   toggleArchiveContact,
   toggleUserDetailsTab,
 } from "../../../redux/actions";
@@ -26,9 +28,7 @@ import { pinnedTabs } from "../../../data/index";
 import { useProfile } from "../../../hooks";
 // hooks
 import { useRedux } from "../../../hooks/index";
-
-const { io } = require("socket.io-client"); // actions
-const socket = io("http://localhost:4000/chat");
+import { calling } from '../../../redux/calls/actions';
 
 interface IndexProps {
   isChannel: boolean;
@@ -114,8 +114,8 @@ const Index = ({ isChannel }: IndexProps) => {
       lastChild &&
         lastChild.scrollIntoView({ behavior: "smooth", block: "end" });
     }, 1000);
-    socket.emit("createRoom", chatUserDetails.conversation_id);
-    socket.on("new_chat", (data: any) => {
+    window.socket.emit("createRoom", chatUserDetails.conversation_id);
+    window.socket.on("new_chat", (data: any) => {
       if (data.sender != userProfile.data.user.id) {
         dispatch(getWebSocketChat(data));
         // scroll to bottom of page
@@ -125,6 +125,18 @@ const Index = ({ isChannel }: IndexProps) => {
           lastChild.scrollIntoView({ behavior: "smooth", block: "end" });
       }
     });
+    window.socket.on("receiveCall", (data: any) => {
+      dispatch(ringing(data.conversation_id, data.call_type));
+    });
+
+    window.socket.on("hangUp", (data: any) => {
+      dispatch(hangup());
+    });
+
+    window.socket.on("callAnswered", (data: any) => {
+      dispatch(calling(data.conversation_id, data.call_type));
+    });
+    
   }, [
     dispatch,
     isUserMessageSent,

@@ -15,22 +15,30 @@ export const getCalls = () => ({
   type: CallsActionTypes.GET_CALLS,
 });
 
-export const dialing = (conversation_id: string) => ({
+export const dialing = (
+  conversation_id: string,
+  call_type: "audio" | "video"
+) => ({
   type: CallsActionTypes.DIALING,
-  payload: { conversation_id },
+  payload: { conversation_id, call_type },
 });
 
-export const calling = (conversation_id: string) => ({
+export const calling = (
+  conversation_id: string,
+  call_type: "audio" | "video"
+) => ({
   type: CallsActionTypes.CALLING,
-  payload: { conversation_id },
+  payload: { conversation_id, call_type },
 });
 
-export const ringing = (conversation_id: string) => ({
+export const ringing = (
+  conversation_id: string,
+  call_type: "audio" | "video"
+) => ({
   type: CallsActionTypes.RINGING,
-  payload: { conversation_id },
+  payload: { conversation_id, call_type },
 });
 
 export const hangup = () => ({
   type: CallsActionTypes.HANGUP,
 });
-

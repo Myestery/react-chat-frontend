@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import classnames from "classnames";
-import { Button } from "reactstrap";
 
+import AudioCallModal from "../../../components/AudioCallModal";
+import { Button } from "reactstrap";
 // interface
 import { CallItem } from "../../../data/calls";
-import { formateDate } from "../../../utils/index";
-import AudioCallModal from "../../../components/AudioCallModal";
 import VideoCallModal from "../../../components/VideoCallModal";
+import classnames from "classnames";
+import { formateDate } from "../../../utils/index";
 
 interface ProfileImageProps {
   call: CallItem;
@@ -192,6 +192,9 @@ const Call = ({ call }: CallProps) => {
         isOpen={isOpenAudioModal}
         onClose={onCloseAudio}
         user={user}
+        isActive={false}
+        onAnswer={onOpenVideo}
+        isAnswered={false}
       />
       <VideoCallModal
         isOpen={isOpenVideoModal}

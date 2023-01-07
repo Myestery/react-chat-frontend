@@ -5,14 +5,25 @@ import { CallItem } from "../data/calls";
 import React from "react";
 //images
 import imagePlaceholder from "../assets/images/users/profile-placeholder.png";
+import { Stopwatch } from "./StopWatch";
 
 interface AudioCallModalProps {
   isOpen: boolean;
+  isActive: boolean;
   onClose: () => void;
+  onAnswer: () => void;
   user: CallItem | null;
+  isAnswered : boolean;
 }
 
-const AudioCallModal = ({ isOpen, onClose, user }: AudioCallModalProps) => {
+const AudioCallModal = ({
+  isOpen,
+  onClose,
+  user,
+  onAnswer,
+  isActive,
+  isAnswered
+}: AudioCallModalProps) => {
   return (
     <Modal
       isOpen={isOpen}
@@ -26,9 +37,7 @@ const AudioCallModal = ({ isOpen, onClose, user }: AudioCallModalProps) => {
         <div className="text-center p-4 pb-0">
           <div className="avatar-xl mx-auto mb-4">
             <img
-              src={
-                user && user.image_url ? user.image_url : imagePlaceholder
-              }
+              src={user && user.image_url ? user.image_url : imagePlaceholder}
               alt=""
               className="img-thumbnail rounded-circle"
             />
@@ -51,18 +60,35 @@ const AudioCallModal = ({ isOpen, onClose, user }: AudioCallModalProps) => {
             </div>
           </div>
 
-          <div className="mt-4">
-            <Button
-              type="button"
-              className="btn btn-danger avatar-md call-close-btn rounded-circle"
-              color="danger"
-              onClick={onClose}
-            >
-              <span className="avatar-title bg-transparent font-size-24">
-                <i className="mdi mdi-phone-hangup"></i>
-              </span>
-            </Button>
-          </div>
+          {isAnswered && <Stopwatch />}
+
+          {isActive ? (
+            <div className="mt-4">
+              <Button
+                type="button"
+                className="btn btn-danger avatar-md call-close-btn rounded-circle"
+                color="danger"
+                onClick={onClose}
+              >
+                <span className="avatar-title bg-transparent font-size-24">
+                  <i className="mdi mdi-phone-hangup"></i>
+                </span>
+              </Button>
+            </div>
+          ) : (
+            <div className="mt-4">
+              <Button
+                type="button"
+                className="btn btn-success avatar-md call-close-btn rounded-circle"
+                color="success"
+                onClick={onAnswer}
+              >
+                <span className="avatar-title bg-transparent font-size-24">
+                  <i className="mdi mdi-phone-outline"></i>
+                </span>
+              </Button>
+            </div>
+          )}
         </div>
 
         <div className="p-4 bg-soft-primary mt-n4">

@@ -7,6 +7,7 @@ export const INIT_STATE: CallsState = {
   calling: false,
   ringing: false,
   conversation_id: "",
+  call_type: "audio",
 };
 
 const Calls = (state = INIT_STATE, action: any) => {
@@ -52,6 +53,7 @@ const Calls = (state = INIT_STATE, action: any) => {
         dialing: true,
         calling: false,
         ringing: false,
+        call_type: action.payload.call_type,
         conversation_id: action.payload.conversation_id,
       };
     }
@@ -63,6 +65,7 @@ const Calls = (state = INIT_STATE, action: any) => {
         dialing: false,
         calling: true,
         ringing: false,
+        call_type: action.payload.call_type,
         conversation_id: action.payload.conversation_id,
       };
     }
@@ -74,6 +77,7 @@ const Calls = (state = INIT_STATE, action: any) => {
         dialing: false,
         calling: false,
         ringing: true,
+        call_type: action.payload.call_type,
         conversation_id: action.payload.conversation_id,
       };
     }

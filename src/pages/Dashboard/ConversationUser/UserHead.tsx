@@ -10,7 +10,7 @@ import {
   Row,
   UncontrolledTooltip,
 } from "reactstrap";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import AddPinnedTabModal from "../../../components/AddPinnedTabModal";
 // components
@@ -26,6 +26,7 @@ import { changeSelectedChat } from "../../../redux/actions";
 import classnames from "classnames";
 // hooks
 import { useRedux } from "../../../hooks/index";
+import { calling as callAnswered } from '../../../redux/calls/actions';
 
 interface ProfileImageProps {
   chatUserDetails: any;
@@ -304,10 +305,19 @@ const UserHead = ({
   onToggleArchive,
 }: UserHeadProps) => {
   // global store
-  const { dispatch } = useRedux();
   /*
     video call modal
     */
+  const { dispatch, useAppSelector } = useRedux();
+
+  const { dialing, calling, ringing, conversation_id, call_type } =
+    useAppSelector(state => ({
+      dialing: state.Calls.dialing,
+      calling: state.Calls.calling,
+      ringing: state.Calls.ringing,
+      conversation_id: state.Calls.conversation_id,
+      call_type: state.Calls.call_type,
+    }));
   const [isOpenVideoModal, setIsOpenVideoModal] = useState<boolean>(false);
   const onOpenVideo = () => {
     setIsOpenVideoModal(true);
@@ -321,7 +331,22 @@ const UserHead = ({
     */
   const [isOpenAudioModal, setIsOpenAudioModal] = useState<boolean>(false);
   const onOpenAudio = () => {
+    console.log(chatUserDetails);
+    // try to call the user here
+    window.socket.emit("callUser", {
+      conversation_id: chatUserDetails.conversation_id,
+      receiver: chatUserDetails._id,
+      call_type: "audio",
+    });
     setIsOpenAudioModal(true);
+  };
+  const Answer = () => {
+    window.socket.emit("answerCall", {
+      conversation_id: conversation_id,
+      receiver: chatUserDetails._id,
+      call_type: call_type,
+    });
+    dispatch(callAnswered(conversation_id, call_type));
   };
   const onCloseAudio = () => {
     setIsOpenAudioModal(false);
@@ -345,6 +370,16 @@ const UserHead = ({
   const onCloseConversation = () => {
     dispatch(changeSelectedChat(null));
   };
+  // open modal if there is a call
+  useEffect(() => {
+    if (dialing || calling || ringing) {
+      if (call_type === "video") {
+        setIsOpenVideoModal(true);
+      } else {
+        setIsOpenAudioModal(true);
+      }
+    }
+  }, [dialing, calling, ringing]);
 
   return (
     <div className="p-3 p-lg-4 user-chat-topbar">
@@ -417,6 +452,9 @@ const UserHead = ({
           isOpen={isOpenAudioModal}
           onClose={onCloseAudio}
           user={chatUserDetails}
+          isActive={!ringing}
+          onAnswer={Answer}
+          isAnswered={calling}
         />
       )}
       {isOpenVideoModal && (

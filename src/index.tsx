@@ -1,11 +1,19 @@
+import App from "./App";
+import { BrowserRouter } from "react-router-dom";
+import { Provider } from "react-redux";
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./App";
-import { Provider } from "react-redux";
-import reportWebVitals from "./reportWebVitals";
 import { configureStore } from "./redux/store";
-import { BrowserRouter } from "react-router-dom";
+import reportWebVitals from "./reportWebVitals";
+const { io } = require("socket.io-client"); // actions
+const socket = io("http://localhost:4000/chat");
 
+window.socket = socket;
+declare global {
+  interface Window {
+    socket: any;
+  }
+}
 ReactDOM.render(
   <Provider store={configureStore({})}>
     <BrowserRouter>
