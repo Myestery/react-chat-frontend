@@ -3,6 +3,10 @@ import { CallsActionTypes, CallsState } from "./types";
 
 export const INIT_STATE: CallsState = {
   calls: [],
+  dialing: false,
+  calling: false,
+  ringing: false,
+  conversation_id: "",
 };
 
 const Calls = (state = INIT_STATE, action: any) => {
@@ -40,6 +44,62 @@ const Calls = (state = INIT_STATE, action: any) => {
         isCallsFetched: false,
       };
     }
+
+    // dialing
+    case CallsActionTypes.DIALING: {
+      return {
+        ...state,
+        dialing: true,
+        calling: false,
+        ringing: false,
+        conversation_id: action.payload.conversation_id,
+      };
+    }
+
+    // calling
+    case CallsActionTypes.CALLING: {
+      return {
+        ...state,
+        dialing: false,
+        calling: true,
+        ringing: false,
+        conversation_id: action.payload.conversation_id,
+      };
+    }
+
+    // ringing
+    case CallsActionTypes.RINGING: {
+      return {
+        ...state,
+        dialing: false,
+        calling: false,
+        ringing: true,
+        conversation_id: action.payload.conversation_id,
+      };
+    }
+
+    // accept call
+    case CallsActionTypes.ACCEPT: {
+      return {
+        ...state,
+        dialing: false,
+        calling: true,
+        ringing: false,
+        conversation_id: action.payload.conversation_id,
+      };
+    }
+
+    // reject call
+    case CallsActionTypes.REJECT: {
+      return {
+        ...state,
+        dialing: false,
+        calling: false,
+        ringing: false,
+        conversation_id: "",
+      };
+    }
+      
 
     default:
       return { ...state };

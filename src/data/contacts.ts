@@ -24,6 +24,7 @@ export interface ContactTypes {
   _id: string | number;
   name: string;
   user_id: string;
+  conversation_id: string;
   firstName: string;
   lastName: string;
   firstname: string;
@@ -38,6 +39,7 @@ export interface ContactTypes {
   status?: STATUS_TYPES;
   isFavourite?: boolean;
   isArchived?: boolean;
+  image_url?: string;
 }
 let contacts: ContactTypes[] = [
   // {

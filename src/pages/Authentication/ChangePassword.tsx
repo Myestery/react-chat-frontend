@@ -1,28 +1,28 @@
-import React from "react";
-import { Alert, Row, Col, Form } from "reactstrap";
-
-// hooks
-import { useRedux } from "../../hooks/index";
-
-// validations
-import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { useForm } from "react-hook-form";
 
-// // hooks
-// import { useProfile } from "../../hooks";
+import { Alert, Col, Form, Row } from "reactstrap";
 
-//actions
-import { userChangePassword } from "../../redux/actions";
-
-// components
-import NonAuthLayoutWrapper from "../../components/NonAutnLayoutWrapper";
 import AuthHeader from "../../components/AuthHeader";
 import FormInput from "../../components/FormInput";
 import Loader from "../../components/Loader";
-
+// components
+import NonAuthLayoutWrapper from "../../components/NonAutnLayoutWrapper";
+import React from "react";
 //images
 import avatar1 from "../../assets/images/users/avatar-1.jpg";
+import { getProfileDetails } from "../../redux/actions";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+// hooks
+import { useRedux } from "../../hooks/index";
+//actions
+import { userChangePassword } from "../../redux/actions";
+import { yupResolver } from "@hookform/resolvers/yup";
+
+// validations
+
+// // hooks
+// import { useProfile } from "../../hooks";
 
 interface ChangePasswordProps {}
 const ChangePassword = (props: ChangePasswordProps) => {
@@ -35,6 +35,18 @@ const ChangePassword = (props: ChangePasswordProps) => {
       changepasswordError: state.ForgetPassword.changepasswordError,
       changePassLoading: state.ForgetPassword.loading,
     }));
+
+  const { profileDetails, getProfileLoading, isProfileFetched } =
+    useAppSelector(state => ({
+      profileDetails: state.Profile.profileDetails,
+      getProfileLoading: state.Profile.getProfileLoading,
+      isProfileFetched: state.Profile.isProfileFetched,
+    }));
+
+  // get user profile details
+  useEffect(() => {
+    dispatch(getProfileDetails());
+  }, [dispatch]);
 
   const resolver = yupResolver(
     yup.object().shape({
@@ -70,12 +82,15 @@ const ChangePassword = (props: ChangePasswordProps) => {
           <div className="py-md-5 py-4">
             <AuthHeader title="Change Password" />
             <div className="user-thumb text-center mb-4">
-              <img
-                src={avatar1}
+              {isProfileFetched && <img
+                src={profileDetails.basicDetails.avatar}
                 className="rounded-circle img-thumbnail avatar-lg"
                 alt="thumbnail"
-              />
-              <h5 className="font-size-15 mt-3">Kathryn Swarey</h5>
+              />}
+              {isProfileFetched && <h5 className="font-size-15 mt-3">
+                {profileDetails.basicDetails.firstName}{" "}
+                {profileDetails.basicDetails.lastName}
+              </h5>}
             </div>
             {changepasswordError && changepasswordError ? (
               <Alert color="danger">{changepasswordError}</Alert>

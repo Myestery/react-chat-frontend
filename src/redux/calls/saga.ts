@@ -1,9 +1,8 @@
-import { takeEvery, fork, put, all, call } from "redux-saga/effects";
+import { all, call, fork, put, takeEvery } from "redux-saga/effects";
+import { callsApiResponseError, callsApiResponseSuccess } from "./actions";
 
 // Login Redux States
 import { CallsActionTypes } from "./types";
-import { callsApiResponseSuccess, callsApiResponseError } from "./actions";
-
 import { getCalls as getCallsApi } from "../../api/index";
 
 function* getCalls() {
@@ -14,6 +13,7 @@ function* getCalls() {
     yield put(callsApiResponseError(CallsActionTypes.GET_CALLS, error));
   }
 }
+
 
 export function* watchGetCalls() {
   yield takeEvery(CallsActionTypes.GET_CALLS, getCalls);

@@ -30,6 +30,7 @@ const ContactItem = ({ contact, onSelectChat }: ContactItemProps) => {
       dispatch(getContacts());
     }, 1000);
   };
+  // console.log(contact)
   const fullName = contact.name;
   const shortName = contact.name;
   const colors = [
@@ -44,13 +45,13 @@ const ContactItem = ({ contact, onSelectChat }: ContactItemProps) => {
   const [color] = useState(Math.floor(Math.random() * colors.length));
 
   return (
-    <li onClick={() => onSelectChat(contact._id)}>
+    <li onClick={() => onSelectChat(contact.conversation_id)}>
       <div className="d-flex align-items-center">
         <div className="flex-shrink-0 me-2">
           <div className="avatar-xs">
-            {contact.profileImage ? (
+            {contact.image_url ? (
               <img
-                src={contact.profileImage}
+                src={contact.image_url}
                 alt=""
                 className="img-fluid rounded-circle"
               />

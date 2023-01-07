@@ -1,18 +1,18 @@
 import React, { useEffect } from "react";
 
+import AppSimpleBar from "../../../components/AppSimpleBar";
+// components
+import Loader from "../../../components/Loader";
+import MyProfile from "./MyProfile";
+import UserDescription from "./UserDescription";
+// actions
+import { getProfileDetails } from "../../../redux/actions";
 // hooks
 import { useRedux } from "../../../hooks/index";
 
-// components
-import Loader from "../../../components/Loader";
-import AppSimpleBar from "../../../components/AppSimpleBar";
-import MyProfile from "./MyProfile";
-import UserDescription from "./UserDescription";
 // import Media from "../../../components/Media";
 // import AttachedFiles from "../../../components/AttachedFiles";
 
-// actions
-import { getProfileDetails } from "../../../redux/actions";
 
 interface IndexProps {}
 const Index = (props: IndexProps) => {

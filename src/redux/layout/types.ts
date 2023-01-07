@@ -1,5 +1,5 @@
 // constants
-import { TABS ,LAYOUT_MODES} from "../../constants/index";
+import { LAYOUT_MODES, TABS } from "../../constants/index";
 
 export enum LayoutActionTypes {
   CHANGE_TAB = "@@layout/CHANGE_TAB",
@@ -11,7 +11,7 @@ export interface LayoutState {
     | LAYOUT_MODES.DARK,
   activeTab:
     | TABS.BOOKMARK
-    | TABS.CALLS
+    // | TABS.CALLS
     | TABS.CHAT
     | TABS.CONTACTS
     | TABS.SETTINGS

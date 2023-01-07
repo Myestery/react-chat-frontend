@@ -14,3 +14,23 @@ export const callsApiResponseError = (actionType: string, error: string) => ({
 export const getCalls = () => ({
   type: CallsActionTypes.GET_CALLS,
 });
+
+export const dialing = (conversation_id: string) => ({
+  type: CallsActionTypes.DIALING,
+  payload: { conversation_id },
+});
+
+export const calling = (conversation_id: string) => ({
+  type: CallsActionTypes.CALLING,
+  payload: { conversation_id },
+});
+
+export const ringing = (conversation_id: string) => ({
+  type: CallsActionTypes.RINGING,
+  payload: { conversation_id },
+});
+
+export const hangup = () => ({
+  type: CallsActionTypes.HANGUP,
+});
+
