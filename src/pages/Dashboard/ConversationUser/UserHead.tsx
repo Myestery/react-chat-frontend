@@ -26,7 +26,7 @@ import { changeSelectedChat } from "../../../redux/actions";
 import classnames from "classnames";
 // hooks
 import { useRedux } from "../../../hooks/index";
-import { calling as callAnswered } from '../../../redux/calls/actions';
+import { calling as callAnswered, hangup } from "../../../redux/calls/actions";
 
 interface ProfileImageProps {
   chatUserDetails: any;
@@ -349,6 +349,12 @@ const UserHead = ({
     dispatch(callAnswered(conversation_id, call_type));
   };
   const onCloseAudio = () => {
+    window.socket.emit("hangUp", {
+      conversation_id: conversation_id,
+      receiver: chatUserDetails._id,
+      call_type: call_type,
+    });
+    dispatch(hangup());
     setIsOpenAudioModal(false);
   };
 
@@ -378,8 +384,17 @@ const UserHead = ({
       } else {
         setIsOpenAudioModal(true);
       }
+    } else {
+      setIsOpenVideoModal(false);
+      setIsOpenAudioModal(false);
     }
-  }, [dialing, calling, ringing]);
+  }, [dialing, calling, ringing, dispatch]);
+
+  window.socket.on("callEnded", (data: any) => {
+    dispatch(hangup());
+    setIsOpenVideoModal(false);
+    setIsOpenAudioModal(false);
+  });
 
   return (
     <div className="p-3 p-lg-4 user-chat-topbar">

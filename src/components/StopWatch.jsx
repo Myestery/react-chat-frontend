@@ -16,6 +16,9 @@ export class Stopwatch extends React.Component {
   componentDidMount() {
     this.start();
   }
+  componentWillUnmount() {
+    this.stop();
+  }
 
   start = () => {
     if (!this.state.running) {
@@ -77,16 +80,6 @@ export class Stopwatch extends React.Component {
     return (
       <div className="main">
         <div className="stopwatch">{this.state.text}</div>
-        {/* <nav>
-          <button className="start" onClick={this.start}>
-            start
-          </button>
-          <button className="start" onClick={this.stop}>
-            stop
-          </button>
-          <button onClick={this.reset}>reset</button>
-          <button onClick={this.lap}>lap</button>
-        </nav> */}
         <ul className="results">
           {this.state.laps.map(lapTime => (
             <li>{lapTime}</li>

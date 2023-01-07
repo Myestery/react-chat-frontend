@@ -100,10 +100,20 @@ const Calls = (state = INIT_STATE, action: any) => {
         dialing: false,
         calling: false,
         ringing: false,
-        conversation_id: "",
+        // conversation_id: "",
       };
     }
-      
+
+    // reject call
+    case CallsActionTypes.HANGUP: {
+      return {
+        ...state,
+        dialing: false,
+        calling: false,
+        ringing: false,
+        // conversation_id: "",
+      };
+    }
 
     default:
       return { ...state };

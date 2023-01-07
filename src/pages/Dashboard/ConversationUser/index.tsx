@@ -129,14 +129,10 @@ const Index = ({ isChannel }: IndexProps) => {
       dispatch(ringing(data.conversation_id, data.call_type));
     });
 
-    window.socket.on("hangUp", (data: any) => {
-      dispatch(hangup());
-    });
-
     window.socket.on("callAnswered", (data: any) => {
       dispatch(calling(data.conversation_id, data.call_type));
     });
-    
+
   }, [
     dispatch,
     isUserMessageSent,
