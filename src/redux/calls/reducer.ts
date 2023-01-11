@@ -8,6 +8,7 @@ export const INIT_STATE: CallsState = {
   ringing: false,
   conversation_id: "",
   call_type: "audio",
+  friend_video: true,
 };
 
 const Calls = (state = INIT_STATE, action: any) => {
@@ -90,6 +91,13 @@ const Calls = (state = INIT_STATE, action: any) => {
         calling: true,
         ringing: false,
         conversation_id: action.payload.conversation_id,
+      };
+    }
+      
+    case CallsActionTypes.TOGGLE_VIDEO_STREAM: {
+      return {
+        ...state,
+        friend_video: !state.friend_video,
       };
     }
 

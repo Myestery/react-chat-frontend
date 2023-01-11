@@ -11,8 +11,14 @@ import {
   UncontrolledTooltip,
 } from "reactstrap";
 import React, { useEffect, useState } from "react";
-import { calling as callAnswered, hangup } from "../../../redux/calls/actions";
-
+import {
+  calling as callAnswered,
+  dialing as dialingUser,
+  hangup,
+  toggleVideoStream,
+} from "../../../redux/calls/actions";
+// hooks
+import { useProfile } from "../../../hooks";
 import AddPinnedTabModal from "../../../components/AddPinnedTabModal";
 // components
 import AudioCallModal from "../../../components/AudioCallModal";
@@ -28,12 +34,6 @@ import classnames from "classnames";
 // hooks
 import { useRedux } from "../../../hooks/index";
 
-function addVideoStream(video: HTMLVideoElement, stream: any) {
-  video.srcObject = stream;
-  video.addEventListener("loadedmetadata", () => {
-    video.play();
-  });
-}
 interface ProfileImageProps {
   chatUserDetails: any;
   onCloseConversation: () => any;
@@ -314,22 +314,53 @@ const UserHead = ({
   /*
     video call modal
     */
+  const { userProfile } = useProfile();
   const { dispatch, useAppSelector } = useRedux();
-  
 
-  const { dialing, calling, ringing, conversation_id, call_type } =
-    useAppSelector(state => ({
-      dialing: state.Calls.dialing,
-      calling: state.Calls.calling,
-      ringing: state.Calls.ringing,
-      conversation_id: state.Calls.conversation_id,
-      call_type: state.Calls.call_type,
-    }));
+  const {
+    dialing,
+    calling,
+    ringing,
+    conversation_id,
+    call_type,
+    friend_video,
+  } = useAppSelector(state => ({
+    dialing: state.Calls.dialing,
+    calling: state.Calls.calling,
+    ringing: state.Calls.ringing,
+    conversation_id: state.Calls.conversation_id,
+    call_type: state.Calls.call_type,
+    friend_video: state.Calls.friend_video,
+  }));
   const [isOpenVideoModal, setIsOpenVideoModal] = useState<boolean>(false);
   const onOpenVideo = () => {
-    setIsOpenVideoModal(true);
+    navigator.mediaDevices
+      .getUserMedia({
+        video: true,
+        audio: true,
+      })
+      .then(stream => {
+        // try to call the user here
+        window.socket.emit("callUser", {
+          conversation_id: chatUserDetails.conversation_id,
+          receiver: chatUserDetails._id,
+          call_type: "video",
+        });
+        window.peerConnection = window.peer.connect(chatUserDetails._id)
+        window.call = window.peer.call(chatUserDetails._id, stream);
+        window.stream = stream;
+        dispatch(dialingUser(chatUserDetails.conversation_id, "video"));
+        setIsOpenVideoModal(true);
+      });
   };
   const onCloseVideo = () => {
+    // close call too
+    window.socket.emit("hangUp", {
+      conversation_id: chatUserDetails.conversation_id,
+      receiver: chatUserDetails._id,
+      call_type: call_type,
+    });
+    dispatch(hangup());
     setIsOpenVideoModal(false);
   };
 
@@ -354,29 +385,30 @@ const UserHead = ({
 
         window.call = window.peer.call(chatUserDetails._id, stream);
         window.stream = stream;
+        dispatch(dialingUser(chatUserDetails.conversation_id, "audio"));
         setIsOpenAudioModal(true);
       });
   };
-  const Answer = () => {
+  const Answer = (use_video: boolean = false) => {
     navigator.mediaDevices
       .getUserMedia({
-        // video: true,
+        video: use_video,
         audio: true,
       })
       .then(stream => {
         window.socket.emit("answerCall", {
           conversation_id: conversation_id,
           receiver: chatUserDetails._id,
-          call_type: call_type,
+          call_type: use_video ? "video" : "audio",
         });
         window.call.answer(stream);
         window.stream = stream;
-        dispatch(callAnswered(conversation_id, call_type));
+        dispatch(callAnswered(conversation_id, use_video ? "video" : "audio"));
       });
   };
   const onCloseAudio = () => {
     window.socket.emit("hangUp", {
-      conversation_id: conversation_id,
+      conversation_id: chatUserDetails.conversation_id,
       receiver: chatUserDetails._id,
       call_type: call_type,
     });
@@ -402,6 +434,18 @@ const UserHead = ({
   const onCloseConversation = () => {
     dispatch(changeSelectedChat(null));
   };
+  const onToggleVideoStream = () => {
+    window.socket.emit("toggleVideoStream", {
+      conversation_id: chatUserDetails.conversation_id,
+      receiver: chatUserDetails._id,
+      call_type: call_type,
+    });
+  };
+  window.socket.on("toggleVideoStream", (data: any) => {
+    if (data.receiver == userProfile.data.user.id) {
+      dispatch(toggleVideoStream());
+    }
+  });
   // open modal if there is a call
   useEffect(() => {
     if (dialing || calling || ringing) {
@@ -498,6 +542,7 @@ const UserHead = ({
           isActive={!ringing}
           onAnswer={Answer}
           isAnswered={calling}
+          dialing={dialing}
         />
       )}
       {isOpenVideoModal && (
@@ -505,6 +550,12 @@ const UserHead = ({
           isOpen={isOpenVideoModal}
           onClose={onCloseVideo}
           user={chatUserDetails}
+          isActive={!ringing}
+          onAnswer={Answer}
+          isAnswered={calling}
+          dialing={dialing}
+          onCloseVideoStream={onToggleVideoStream}
+          showFriendVideo={friend_video}
         />
       )}
       {isOpenPinnedTabModal && (

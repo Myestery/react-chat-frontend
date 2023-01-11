@@ -42,3 +42,7 @@ export const ringing = (
 export const hangup = () => ({
   type: CallsActionTypes.HANGUP,
 });
+
+export const toggleVideoStream = () => ({
+  type: CallsActionTypes.TOGGLE_VIDEO_STREAM,
+});

@@ -14,7 +14,7 @@ interface AudioCallModalProps {
   onAnswer: () => void;
   user: CallItem | null;
   isAnswered: boolean;
-  // stream: MediaStream | MediaStreamTrack | null;
+  dialing: boolean;
 }
 
 const AudioCallModal = ({
@@ -24,11 +24,9 @@ const AudioCallModal = ({
   onAnswer,
   isActive,
   isAnswered,
+  dialing,
 }: // stream,
 AudioCallModalProps) => {
-  // const [_stream, setStream] = useState<MediaStream | MediaStreamTrack | null>(
-  //   null
-  // );
   const [muted, setMuted] = useState(false);
   const audioElement = useRef(null);
   if (isAnswered) {
@@ -44,7 +42,7 @@ AudioCallModalProps) => {
   const toggleMic = () => {
     if (window.stream) {
       window.stream.getAudioTracks().forEach(track => {
-        track.enabled = !track.enabled
+        track.enabled = !track.enabled;
       });
       setMuted(!muted);
     }
@@ -52,7 +50,9 @@ AudioCallModalProps) => {
   return (
     <Modal
       isOpen={isOpen}
-      toggle={onClose}
+      toggle={() => {
+        console.log("");
+      }}
       tabIndex={-1}
       centered
       className="audiocallModal"
@@ -92,7 +92,9 @@ AudioCallModalProps) => {
 
           {isAnswered && <Stopwatch />}
           {isAnswered && <audio ref={audioElement} autoPlay={true} />}
-          {!isAnswered && <audio src="/ringtone.mp3" autoPlay={true} />}
+          {!isAnswered && !dialing && (
+            <audio src="/ringtone.mp3" autoPlay={true} onEnded={onClose} />
+          )}
 
           {isActive ? (
             <div className="mt-4">

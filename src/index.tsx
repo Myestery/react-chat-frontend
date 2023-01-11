@@ -1,4 +1,4 @@
-import { MediaConnection, Peer } from "peerjs";
+import { DataConnection, MediaConnection, Peer } from "peerjs";
 
 import App from "./App";
 import { BrowserRouter } from "react-router-dom";
@@ -25,6 +25,10 @@ peer.on("call", function (call) {
   // Answer the call, providing our mediaStream
   window.call = call;
 });
+peer.on('connection', function (con) {
+  console.log("peer.on(connection)", con)
+  window.peerConnection = con;
+});
 window.socket = socket;
 window.peer = peer;
 declare global {
@@ -32,7 +36,8 @@ declare global {
     socket: any;
     peer: Peer;
     call: MediaConnection;
-   stream: MediaStream; 
+    stream: MediaStream; 
+    peerConnection: DataConnection;
   }
 }
 ReactDOM.render(

@@ -9,6 +9,7 @@ export enum CallsActionTypes {
   HANGUP = "@@calls/HANGUP",
   ACCEPT = "@@calls/ACCEPT",
   REJECT = "@@calls/REJECT",
+  TOGGLE_VIDEO_STREAM = "@@calls/TOGGLE_VIDEO_STREAM",
 }
 export interface CallsState {
   calls: Array<any>;
@@ -17,4 +18,5 @@ export interface CallsState {
   ringing: boolean;
   conversation_id: string;
   call_type: "audio" | "video";
+  friend_video: boolean;
 }
