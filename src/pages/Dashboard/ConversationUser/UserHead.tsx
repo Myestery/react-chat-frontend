@@ -11,6 +11,7 @@ import {
   UncontrolledTooltip,
 } from "reactstrap";
 import React, { useEffect, useState } from "react";
+import { calling as callAnswered, hangup } from "../../../redux/calls/actions";
 
 import AddPinnedTabModal from "../../../components/AddPinnedTabModal";
 // components
@@ -26,8 +27,13 @@ import { changeSelectedChat } from "../../../redux/actions";
 import classnames from "classnames";
 // hooks
 import { useRedux } from "../../../hooks/index";
-import { calling as callAnswered, hangup } from "../../../redux/calls/actions";
 
+function addVideoStream(video: HTMLVideoElement, stream: any) {
+  video.srcObject = stream;
+  video.addEventListener("loadedmetadata", () => {
+    video.play();
+  });
+}
 interface ProfileImageProps {
   chatUserDetails: any;
   onCloseConversation: () => any;
@@ -309,6 +315,7 @@ const UserHead = ({
     video call modal
     */
   const { dispatch, useAppSelector } = useRedux();
+  
 
   const { dialing, calling, ringing, conversation_id, call_type } =
     useAppSelector(state => ({
@@ -331,22 +338,41 @@ const UserHead = ({
     */
   const [isOpenAudioModal, setIsOpenAudioModal] = useState<boolean>(false);
   const onOpenAudio = () => {
-    console.log(chatUserDetails);
-    // try to call the user here
-    window.socket.emit("callUser", {
-      conversation_id: chatUserDetails.conversation_id,
-      receiver: chatUserDetails._id,
-      call_type: "audio",
-    });
-    setIsOpenAudioModal(true);
+    // console.log(chatUserDetails);
+    navigator.mediaDevices
+      .getUserMedia({
+        // video: true,
+        audio: true,
+      })
+      .then(stream => {
+        // try to call the user here
+        window.socket.emit("callUser", {
+          conversation_id: chatUserDetails.conversation_id,
+          receiver: chatUserDetails._id,
+          call_type: "audio",
+        });
+
+        window.call = window.peer.call(chatUserDetails._id, stream);
+        window.stream = stream;
+        setIsOpenAudioModal(true);
+      });
   };
   const Answer = () => {
-    window.socket.emit("answerCall", {
-      conversation_id: conversation_id,
-      receiver: chatUserDetails._id,
-      call_type: call_type,
-    });
-    dispatch(callAnswered(conversation_id, call_type));
+    navigator.mediaDevices
+      .getUserMedia({
+        // video: true,
+        audio: true,
+      })
+      .then(stream => {
+        window.socket.emit("answerCall", {
+          conversation_id: conversation_id,
+          receiver: chatUserDetails._id,
+          call_type: call_type,
+        });
+        window.call.answer(stream);
+        window.stream = stream;
+        dispatch(callAnswered(conversation_id, call_type));
+      });
   };
   const onCloseAudio = () => {
     window.socket.emit("hangUp", {
@@ -420,6 +446,7 @@ const UserHead = ({
                     type="button"
                     color="none"
                     className="btn nav-btn"
+                    id="audio-call-btn"
                     onClick={onOpenAudio}
                   >
                     <i className="bx bxs-phone-call"></i>
@@ -431,6 +458,7 @@ const UserHead = ({
                     type="button"
                     color="none"
                     className="btn nav-btn"
+                    id="video-call-btn"
                     onClick={onOpenVideo}
                   >
                     <i className="bx bx-video"></i>

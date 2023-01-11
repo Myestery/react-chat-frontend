@@ -340,7 +340,7 @@ const Chats = (state = INIT_STATE, action: any) => {
         ...state,
         chatUserConversations: [
           ...state.chatUserConversations.filter(
-            (x: any) => x._id != action.payload._id
+            (x: any) => x._id !== action.payload._id
           ),
           action.payload,
         ],

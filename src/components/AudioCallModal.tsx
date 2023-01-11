@@ -1,11 +1,11 @@
 import { Button, Modal, ModalBody } from "reactstrap";
+import React, { useRef, useState } from "react";
 
 // interface
 import { CallItem } from "../data/calls";
-import React from "react";
+import { Stopwatch } from "./StopWatch";
 //images
 import imagePlaceholder from "../assets/images/users/profile-placeholder.png";
-import { Stopwatch } from "./StopWatch";
 
 interface AudioCallModalProps {
   isOpen: boolean;
@@ -13,7 +13,8 @@ interface AudioCallModalProps {
   onClose: () => void;
   onAnswer: () => void;
   user: CallItem | null;
-  isAnswered : boolean;
+  isAnswered: boolean;
+  // stream: MediaStream | MediaStreamTrack | null;
 }
 
 const AudioCallModal = ({
@@ -22,8 +23,32 @@ const AudioCallModal = ({
   user,
   onAnswer,
   isActive,
-  isAnswered
-}: AudioCallModalProps) => {
+  isAnswered,
+}: // stream,
+AudioCallModalProps) => {
+  // const [_stream, setStream] = useState<MediaStream | MediaStreamTrack | null>(
+  //   null
+  // );
+  const [muted, setMuted] = useState(false);
+  const audioElement = useRef(null);
+  if (isAnswered) {
+    window.call.on("stream", function (stream) {
+      // `stream` is the MediaStream of the remote peer.
+      // Here you'd add it to an HTML video/canvas element.
+      // setStream(stream);
+      if (audioElement.current)
+        (audioElement.current as any).srcObject = stream;
+    });
+  }
+
+  const toggleMic = () => {
+    if (window.stream) {
+      window.stream.getAudioTracks().forEach(track => {
+        track.enabled = !track.enabled
+      });
+      setMuted(!muted);
+    }
+  };
   return (
     <Modal
       isOpen={isOpen}
@@ -49,9 +74,14 @@ const AudioCallModal = ({
                 type="button"
                 color="light"
                 className="avatar-sm rounded-circle"
+                onClick={toggleMic}
               >
                 <span className="avatar-title bg-transparent text-muted font-size-20">
-                  <i className="bx bx-microphone-off"></i>
+                  {muted ? (
+                    <i className="bx bx-microphone-off"></i>
+                  ) : (
+                    <i className="bx bx-microphone"></i>
+                  )}
                 </span>
               </Button>
               <h5 className="font-size-11 text-uppercase text-muted mt-2">
@@ -61,6 +91,8 @@ const AudioCallModal = ({
           </div>
 
           {isAnswered && <Stopwatch />}
+          {isAnswered && <audio ref={audioElement} autoPlay={true} />}
+          {!isAnswered && <audio src="/ringtone.mp3" autoPlay={true} />}
 
           {isActive ? (
             <div className="mt-4">

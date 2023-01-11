@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from "react";
 
 export class Stopwatch extends React.Component {
@@ -57,7 +58,7 @@ export class Stopwatch extends React.Component {
       this.state.miliseconds
     )}`;
   };
-
+  // eslint-disable-next-line
   calculate = () => {
     this.state.miliseconds += 1;
     if (this.state.miliseconds >= 100) {

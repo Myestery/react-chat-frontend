@@ -106,6 +106,16 @@ const Calls = (state = INIT_STATE, action: any) => {
 
     // reject call
     case CallsActionTypes.HANGUP: {
+      // close all media tracks
+      if (window.stream) {
+        window.stream.getAudioTracks().forEach(track => {
+          track.stop();
+        });
+        
+        window.stream.getVideoTracks().forEach(track => {
+          track.stop();
+        });
+      }
       return {
         ...state,
         dialing: false,

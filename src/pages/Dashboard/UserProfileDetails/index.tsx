@@ -61,19 +61,18 @@ const Index = ({ isChannel }: IndexProps) => {
     */
   const [isOpenVideoModal, setIsOpenVideoModal] = useState<boolean>(false);
   const onOpenVideo = () => {
-    setIsOpenVideoModal(true);
+    // setIsOpenVideoModal(true);
+    document.getElementById("video-call-btn")?.click();
   };
   const onCloseVideo = () => {
     setIsOpenVideoModal(false);
   };
 
-  /*
-        audio call modal
-    */
   const [isOpenAudioModal, setIsOpenAudioModal] = useState<boolean>(false);
   const onOpenAudio = () => {
-    console.log(chatUserDetails);
-    setIsOpenAudioModal(true);
+    // console.log(chatUserDetails);
+    // setIsOpenAudioModal(true);
+    document.getElementById("audio-call-btn")?.click();
   };
   const onCloseAudio = () => {
     setIsOpenAudioModal(false);
